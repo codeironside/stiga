@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Linkedin, Flame, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Footer = () => {
@@ -12,7 +12,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center space-x-2">
-              <Flame className="h-8 w-8 text-primary-400" />
+                <img src="/Rectangle 1.png" className="h-8 w-8" alt="Flame Icon" />
               <span className="text-2xl font-sans font-bold text-white">Striga</span>
             </Link>
             <p className="mt-4 text-neutral">

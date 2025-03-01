@@ -1,79 +1,101 @@
-import React from 'react';
-import { CheckCircle } from 'lucide-react';
+import { motion } from "framer-motion";
+import { FadeIn, SlideUp } from 'framer-motion'; // Make sure to define your animations here
+import { useState } from "react";
 
-const features = [
-  'Over 10 years of industry experience',
-  'Team of certified professionals',
-  'Customized solutions for your business',
-  'Ongoing support and maintenance',
-  'Transparent pricing and no hidden fees',
-  'Commitment to meeting deadlines',
-];
-
-const AboutSection = () => {
+// About Us page component
+const AboutPage = () => {
   return (
-    <section id="about" className="py-20 bg-white">
+    <section className="py-20 bg-dark-blue text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
-          <div>
-            <h2 className="text-base text-primary font-semibold tracking-wide uppercase">About Us</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-neutral sm:text-4xl">
-              Your Trusted Business Partner
-            </p>
-            <p className="mt-4 max-w-2xl text-lg text-neutral">
-              Founded in 2010, ACME Inc. has been at the forefront of digital innovation, helping businesses transform and thrive in an increasingly competitive landscape.
-            </p>
-            <div className="mt-8">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {features.map((feature, index) => (
-                  <div key={index} className="flex items-start">
-                    <div className="flex-shrink-0">
-                      <CheckCircle className="h-6 w-6 text-green-500" aria-hidden="true" />
-                    </div>
-                    <p className="ml-3 text-base text-neutral">{feature}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="mt-10">
-                <a
-                    href="#contact"
-                    className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-700"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="text-center"
+        >
+          <h2 className="text-4xl font-display font-extrabold leading-tight text-neutral-100">
+            About Us
+          </h2>
+          <p className="mt-4 max-w-3xl text-lg text-neutral-300 lg:mx-auto">
+            At Striga, we specialize in providing secure and innovative solutions for industries like IT, security, construction, and real estate. Through strategic relationships, partnerships, and targeted sponsorships, we position ourselves as a leader in the space of technology risk mitigation and secure solutions.
+          </p>
+        </motion.div>
 
+        <motion.div
+          className="mt-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 1 }}
+        >
+          <div className="space-y-12">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 1 }}
+              className="bg-neutral-800 p-8 rounded-lg shadow-lg"
+            >
+              <h3 className="text-2xl font-medium text-neutral-100">
+                1. Networking and Relationship Building
+              </h3>
+              <p className="mt-4 text-neutral-300">
+                Networking is at the heart of our strategy. We join industry-specific groups in IT, security, construction, and real estate sectors, establishing credibility through participation in events. These connections not only enhance our network but also provide us with opportunities to showcase our expertise.
+              </p>
+
+              <motion.div
+                className="mt-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 1 }}
               >
-                Contact Us
-              </a>
-            </div>
+                <h4 className="text-xl font-medium text-neutral-100">Industry-Specific Networking</h4>
+                <p className="text-neutral-300">
+                  We actively engage with local chambers of commerce and other industry leaders, attending events and forming connections with influential businesses and government organizations.
+                </p>
+              </motion.div>
+
+              <motion.div
+                className="mt-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.1, duration: 1 }}
+              >
+                <h4 className="text-xl font-medium text-neutral-100">VIP Events</h4>
+                <p className="text-neutral-300">
+                  We host exclusive dinners and meetups for executives, high-net-worth individuals, and government officials, where we can present Striga’s value in an intimate setting.
+                </p>
+              </motion.div>
+
+              <motion.div
+                className="mt-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.4, duration: 1 }}
+              >
+                <h4 className="text-xl font-medium text-neutral-100">Leveraging Our Network</h4>
+                <p className="text-neutral-300">
+                  Using our connections, we engage with key individuals and explore introductions that help position Striga as a trusted provider of innovative, secure solutions.
+                </p>
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.7, duration: 1 }}
+              className="bg-neutral-800 p-8 rounded-lg shadow-lg"
+            >
+              <h3 className="text-2xl font-medium text-neutral-100">
+                2. Targeted Sponsorships and Partnerships
+              </h3>
+              <p className="mt-4 text-neutral-300">
+                Our company thrives on the strategic partnerships and sponsorships we forge. Through these, we increase our exposure and amplify Striga’s role as an industry leader in secure, innovative solutions.
+              </p>
+            </motion.div>
           </div>
-          <div className="mt-10 lg:mt-0">
-            <div className="aspect-w-5 aspect-h-3 rounded-lg overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"
-                alt="Team collaborating"
-                className="w-full h-full object-center object-cover"
-              />
-            </div>
-            <div className="mt-4 grid grid-cols-2 gap-4">
-              <div className="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                  alt="Office space"
-                  className="w-full h-48 object-center object-cover"
-                />
-              </div>
-              <div className="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80"
-                  alt="Team meeting"
-                  className="w-full h-48 object-center object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 };
 
-export default AboutSection;
+export default AboutPage;
