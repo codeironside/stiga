@@ -12,16 +12,16 @@ const features = [
 
 const AboutSection = () => {
   return (
-    <section id="about" className="py-20 bg-orange-50" data-aos="fade-up">
+    <section id="about" className="py-20 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
-          <div data-aos="fade-right">
-            <h2 className="text-base text-orange-600 font-semibold tracking-wide uppercase">About Us</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-800 sm:text-4xl">
+          <div>
+            <h2 className="text-base text-primary font-semibold tracking-wide uppercase">About Us</h2>
+            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-neutral sm:text-4xl">
               Your Trusted Business Partner
             </p>
-            <p className="mt-4 max-w-2xl text-lg text-gray-600">
-              Founded in 2010, Stigma has been at the forefront of digital innovation, helping businesses transform and thrive in an increasingly competitive landscape.
+            <p className="mt-4 max-w-2xl text-lg text-neutral">
+              Founded in 2010, ACME Inc. has been at the forefront of digital innovation, helping businesses transform and thrive in an increasingly competitive landscape.
             </p>
             <div className="mt-8">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -30,21 +30,22 @@ const AboutSection = () => {
                     <div className="flex-shrink-0">
                       <CheckCircle className="h-6 w-6 text-green-500" aria-hidden="true" />
                     </div>
-                    <p className="ml-3 text-base text-gray-500">{feature}</p>
+                    <p className="ml-3 text-base text-neutral">{feature}</p>
                   </div>
                 ))}
               </div>
             </div>
             <div className="mt-10">
-              <a
-                href="#contact"
-                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                <a
+                    href="#contact"
+                    className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-700"
+
               >
                 Contact Us
               </a>
             </div>
           </div>
-          <div className="mt-10 lg:mt-0" data-aos="fade-left">
+          <div className="mt-10 lg:mt-0">
             <div className="aspect-w-5 aspect-h-3 rounded-lg overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"

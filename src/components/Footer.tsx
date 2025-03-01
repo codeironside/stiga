@@ -1,91 +1,138 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Facebook, Twitter, Instagram, Linkedin, Flame, Mail, Phone, MapPin } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+  
   return (
-    <footer className="bg-orange-600">
+    <footer className="bg-gradient-to-br from-neutral-900 to-neutral-800 text-primary">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
-            <h2 className="text-white text-2xl font-bold">Stiga</h2>
-            <p className="mt-4 text-gray-200">
-              Providing innovative solutions for businesses since 2010.
+            <Link to="/" className="flex items-center space-x-2">
+              <Flame className="h-8 w-8 text-primary-400" />
+              <span className="text-2xl font-sans font-bold text-white">Striga</span>
+            </Link>
+            <p className="mt-4 text-neutral">
+              Providing innovative solutions for businesses since 2010. We help transform ideas into reality.
             </p>
-            <div className="mt-6 flex space-x-6">
-              <a href="#" className="text-gray-300 hover:text-white">
+            <div className="mt-6 flex space-x-4">
+              <motion.a 
+                href="#" 
+                className="text-neutral-400 hover:text-primary-400 transition-colors duration-300"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <span className="sr-only">Facebook</span>
-                <Facebook className="h-6 w-6" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white">
+                <Facebook className="h-5 w-5" />
+              </motion.a>
+              <motion.a 
+                href="#" 
+                className="text-neutral-400 hover:text-primary-400 transition-colors duration-300"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <span className="sr-only">Instagram</span>
-                <Instagram className="h-6 w-6" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white">
+                <Instagram className="h-5 w-5" />
+              </motion.a>
+              <motion.a 
+                href="#" 
+                className="text-neutral-400 hover:text-primary-400 transition-colors duration-300"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <span className="sr-only">Twitter</span>
-                <Twitter className="h-6 w-6" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white">
+                <Twitter className="h-5 w-5" />
+              </motion.a>
+              <motion.a 
+                href="#" 
+                className="text-neutral-400 hover:text-primary-400 transition-colors duration-300"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <span className="sr-only">LinkedIn</span>
-                <Linkedin className="h-6 w-6" />
-              </a>
+                <Linkedin className="h-5 w-5" />
+              </motion.a>
             </div>
           </div>
+          
           <div>
-            <h3 className="text-white text-lg font-semibold">Company</h3>
-            <ul className="mt-4 space-y-4">
+            <h3 className="text-lg font-display font-semibold text-white">Company</h3>
+            <ul className="mt-4 space-y-3">
               <li>
-                <a href="#about" className="text-gray-300 hover:text-white">About</a>
+                <Link to="/about" className="text-neutral hover:text-primary transition-colors duration-300">About</Link>
               </li>
               <li>
-                <a href="#team" className="text-gray-300 hover:text-white">Team</a>
+                <Link to="/about#team" className="text-neutral hover:text-primary transition-colors duration-300">Team</Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">Careers</a>
+                <Link to="/about#careers" className="text-neutral hover:text-primary transition-colors duration-300">Careers</Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white">Blog</a>
+                <Link to="/blog" className="text-neutral hover:text-primary transition-colors duration-300">Blog</Link>
               </li>
             </ul>
           </div>
+          
           <div>
-            <h3 className="text-white text-lg font-semibold">Services</h3>
-            <ul className="mt-4 space-y-4">
+            <h3 className="text-lg font-display font-semibold text-white">Services</h3>
+            <ul className="mt-4 space-y-3">
               <li>
-                <a href="#services" className="text-gray-300 hover:text-white">Web Development</a>
+                <Link to="/services#web-development" className="text-neutral-300 hover:text-primary-300 transition-colors duration-300">Web Development</Link>
               </li>
               <li>
-                <a href="#services" className="text-gray-300 hover:text-white">Data Analytics</a>
+                <Link to="/services#data-analytics" className="text-neutral-300 hover:text-primary-300 transition-colors duration-300">Data Analytics</Link>
               </li>
               <li>
-                <a href="#services" className="text-gray-300 hover:text-white">UI/UX Design</a>
+                <Link to="/services#design" className="text-neutral-300 hover:text-primary-300 transition-colors duration-300">UI/UX Design</Link>
               </li>
               <li>
-                <a href="#services" className="text-gray-300 hover:text-white">Digital Marketing</a>
+                <Link to="/services#marketing" className="text-neutral-300 hover:text-primary-300 transition-colors duration-300">Digital Marketing</Link>
               </li>
             </ul>
           </div>
+          
           <div>
-            <h3 className="text-white text-lg font-semibold">Legal</h3>
-            <ul className="mt-4 space-y-4">
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white">Privacy Policy</a>
+            <h3 className="text-lg font-display font-semibold text-white">Contact</h3>
+            <ul className="mt-4 space-y-3">
+              <li className="flex items-start">
+                <Phone className="h-5 w-5 text-primary-400 mr-2 mt-0.5" />
+                <span className="text-neutral-300">+1 (555) 123-4567</span>
               </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white">Terms of Service</a>
+              <li className="flex items-start">
+                <Mail className="h-5 w-5 text-primary-400 mr-2 mt-0.5" />
+                <span className="text-neutral-300">info@Striga.com</span>
               </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white">Cookie Policy</a>
-              </li>
-              <li>
-                <a href="#contact" className="text-gray-300 hover:text-white">Contact</a>
+              <li className="flex items-start">
+                <MapPin className="h-5 w-5 text-primary-400 mr-2 mt-0.5" />
+                <span className="text-neutral-300">
+                  123 Innovation Ave, Suite 100<br />
+                  San Francisco, CA 94107
+                </span>
               </li>
             </ul>
           </div>
         </div>
-        <div className="mt-12 border-t border-gray-800 pt-8">
-            <p className="text-base text-gray-300 text-center">
-            &copy; {new Date().getFullYear()} Stiga. All rights reserved.
-          </p>
+        
+        <div className="mt-12 border-t border-neutral-700 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-sm text-neutral">
+              &copy; {currentYear} Striga. All rights reserved.
+            </p>
+            <div className="mt-4 md:mt-0 flex space-x-6">
+              <Link to="/privacy" className="text-sm text-neutral-400 hover:text-primary-300 transition-colors duration-300">
+                Privacy Policy
+              </Link>
+              <Link to="/terms" className="text-sm text-neutral-400 hover:text-primary-300 transition-colors duration-300">
+                Terms of Service
+              </Link>
+              <Link to="/cookies" className="text-sm text-neutral-400 hover:text-primary-300 transition-colors duration-300">
+                Cookie Policy
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
