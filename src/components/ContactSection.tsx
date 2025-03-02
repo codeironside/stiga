@@ -66,7 +66,7 @@ const ContactSection = () => {
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg leading-6 font-medium text-gray-900">Email</h3>
-                  <p className="mt-2 text-base text-gray-500">info@acmeinc.com</p>
+                  <p className="mt-2 text-base text-gray-500">info@strigalimted.com</p>
                 </div>
               </div>
 
@@ -79,8 +79,7 @@ const ContactSection = () => {
                 <div className="ml-4">
                   <h3 className="text-lg leading-6 font-medium text-gray-900">Address</h3>
                   <p className="mt-2 text-base text-gray-500">
-                    123 Business Ave, Suite 100<br />
-                    San Francisco, CA 94107
+                    plot 278 sanusi gamji street kago II abuja
                   </p>
                 </div>
               </div>

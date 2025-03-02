@@ -4,20 +4,20 @@ import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
 import { Code, BarChart, Layers, Globe, Shield, Zap, CheckCircle, ArrowRight } from 'lucide-react';
 
-// Animation variants
+// Updated Animation Variants with added scale and easing for a dynamic feel
 const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.6 }
+    scale: 1,
+    transition: { duration: 0.7, ease: "easeOut" }
   }
 };
 
 const staggerContainer = {
-  hidden: { opacity: 0 },
+  hidden: {},
   visible: {
-    opacity: 1,
     transition: {
       staggerChildren: 0.2
     }
@@ -166,13 +166,13 @@ const services = [
 ];
 
 const ServicesPage = () => {
-  // Hero section
+  // Hero section in-view hook
   const [heroRef, heroInView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-  // Services overview section
+  // Services overview section in-view hook
   const [overviewRef, overviewInView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -180,15 +180,15 @@ const ServicesPage = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={{ opacity: 0, scale: 0.98 }} 
+      animate={{ opacity: 1, scale: 1 }} 
+      exit={{ opacity: 0, scale: 0.98 }}
       transition={{ duration: 0.5 }}
     >
       {/* Hero Section */}
-      <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-to-br from-primary-50 to-neutral-50">
+      <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-to-br from-primary-50 to-neutral-50 overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-30">
-          <div className="absolute inset-0 bg-[radial-gradient(#f97316_1px,transparent_1px)] [background-size:20px_20px]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(#f97316_1px,transparent_1px)] [background-size:20px_20px] animate-pulse"></div>
         </div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -198,7 +198,9 @@ const ServicesPage = () => {
             animate={heroInView ? "visible" : "hidden"}
             className="max-w-3xl mx-auto text-center"
           >
-            <span className="inline-block px-3 py-1 text-xs font-semibold text-primary-600 bg-primary-100 rounded-full">Services</span>
+            <span className="inline-block px-3 py-1 text-xs font-semibold text-primary-600 bg-primary-100 rounded-full">
+              Services
+            </span>
             <h1 className="mt-2 text-4xl font-display font-extrabold tracking-tight text-neutral-900 sm:text-5xl md:text-6xl">
               Our Services
             </h1>
@@ -220,7 +222,9 @@ const ServicesPage = () => {
             animate={overviewInView ? "visible" : "hidden"}
             className="text-center"
           >
-            <span className="inline-block px-3 py-1 text-xs font-semibold text-primary-600 bg-primary-100 rounded-full">What We Offer</span>
+            <span className="inline-block px-3 py-1 text-xs font-semibold text-primary-600 bg-primary-100 rounded-full">
+              What We Offer
+            </span>
             <h2 className="mt-2 text-3xl leading-8 font-display font-extrabold tracking-tight text-neutral-900 sm:text-4xl">
               Comprehensive Solutions
             </h2>
@@ -239,7 +243,7 @@ const ServicesPage = () => {
               <motion.div
                 key={index}
                 variants={fadeIn}
-                whileHover={{ y: -5, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
+                whileHover={{ scale: 1.03, y: -5, boxShadow: '0 10px 25px rgba(0,0,0,0.15)' }}
                 className="relative p-6 bg-white rounded-lg shadow-md transition-all duration-300"
               >
                 <div>
@@ -247,12 +251,19 @@ const ServicesPage = () => {
                     <service.icon className="h-6 w-6 text-white" aria-hidden="true" />
                   </div>
                   <div className="ml-16">
-                    <h3 className="text-lg font-display font-medium text-neutral-900">{service.title}</h3>
-                    <p className="mt-2 text-base text-neutral-600">{service.description}</p>
+                    <h3 className="text-lg font-display font-medium text-neutral-900">
+                      {service.title}
+                    </h3>
+                    <p className="mt-2 text-base text-neutral-600">
+                      {service.description}
+                    </p>
                   </div>
                 </div>
                 <div className="mt-6 ml-16">
-                  <a href={`#${service.id}`} className="text-base font-medium text-primary-600 hover:text-primary-500 inline-flex items-center">
+                  <a
+                    href={`#${service.id}`}
+                    className="text-base font-medium text-primary-600 hover:text-primary-500 inline-flex items-center transition-colors duration-300"
+                  >
                     Learn more <ArrowRight className="ml-1 h-4 w-4" />
                   </a>
                 </div>
@@ -284,7 +295,9 @@ const ServicesPage = () => {
                   animate={serviceInView ? "visible" : "hidden"}
                   className={index % 2 === 0 ? 'order-1' : 'order-2'}
                 >
-                  <span className="inline-block px-3 py-1 text-xs font-semibold text-primary-600 bg-primary-100 rounded-full">Service</span>
+                  <span className="inline-block px-3 py-1 text-xs font-semibold text-primary-600 bg-primary-100 rounded-full">
+                    Service
+                  </span>
                   <h2 className="mt-2 text-3xl leading-8 font-display font-extrabold tracking-tight text-neutral-900 sm:text-4xl">
                     {service.title}
                   </h2>
@@ -313,7 +326,7 @@ const ServicesPage = () => {
                   <div className="mt-10">
                     <Link
                       to="/contact"
-                      className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 transition-all duration-300"
+                      className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 transition-all duration-300 transform hover:scale-105"
                     >
                       Get Started
                     </Link>
@@ -325,7 +338,7 @@ const ServicesPage = () => {
                   transition={{ duration: 0.8, delay: 0.2 }}
                   className={`mt-10 lg:mt-0 ${index % 2 === 0 ? 'order-2' : 'order-1'}`}
                 >
-                  <div className="relative rounded-lg overflow-hidden shadow-xl">
+                  <div className="relative rounded-lg overflow-hidden shadow-xl transform hover:scale-105 transition-transform duration-300">
                     <img
                       src={service.image}
                       alt={service.title}
@@ -352,7 +365,7 @@ const ServicesPage = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={serviceInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                         transition={{ duration: 0.5, delay: stepIndex * 0.1 + 0.3 }}
-                        className="bg-white p-6 rounded-lg shadow-md"
+                        className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
                       >
                         <div className="flex items-center mb-4">
                           <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-full bg-primary-100 text-primary-600 font-bold text-lg">
@@ -383,7 +396,7 @@ const ServicesPage = () => {
             </p>
             <div className="mt-8 flex justify-center">
               <motion.div
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, rotate: 1 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <Link
