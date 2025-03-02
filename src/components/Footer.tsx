@@ -103,7 +103,7 @@ const Footer = () => {
               </li>
               <li className="flex items-start">
                 <Mail className="h-5 w-5 text-primary-400 mr-2 mt-0.5" />
-                <span className="text-neutral-300">info@Striga.com</span>
+                <span className="text-neutral-300">info@strigalimted.com</span>
               </li>
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 text-primary-400 mr-2 mt-0.5" />
@@ -119,7 +119,7 @@ const Footer = () => {
         <div className="mt-12 border-t border-neutral-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-neutral">
-              &copy; {currentYear} Striga. All rights reserved.
+              &copy; {currentYear} codeironside. All rights reserved.
             </p>
             <div className="mt-4 md:mt-0 flex space-x-6">
               <Link to="/privacy" className="text-sm text-neutral-400 hover:text-primary-300 transition-colors duration-300">
