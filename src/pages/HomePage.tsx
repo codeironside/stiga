@@ -154,7 +154,7 @@ const HomePage = () => {
       transition={{ duration: 0.5 }}
     >
       {/* Hero Section */}
-      <Carousel />
+    
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden bg-gradient-to-br from-primary-50 to-neutral-50">
         <div className="absolute inset-0 z-0 opacity-30">
           <div className="absolute inset-0 bg-[radial-gradient(#f97316_1px,transparent_1px)] [background-size:20px_20px]"></div>
@@ -226,6 +226,7 @@ const HomePage = () => {
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-neutral-50 to-transparent"></div>
       </section>
+        <Carousel />
 
       {/* Services Section */}
       <section id="services" className="py-20 bg-neutral-50">
