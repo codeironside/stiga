@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Carousel from '../components/Carousel';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { ArrowRight, Code, BarChart, Layers, Globe, Shield, Zap, CheckCircle } from 'lucide-react';
@@ -153,6 +154,7 @@ const HomePage = () => {
       transition={{ duration: 0.5 }}
     >
       {/* Hero Section */}
+      <Carousel />
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden bg-gradient-to-br from-primary-50 to-neutral-50">
         <div className="absolute inset-0 z-0 opacity-30">
           <div className="absolute inset-0 bg-[radial-gradient(#f97316_1px,transparent_1px)] [background-size:20px_20px]"></div>
@@ -251,9 +253,9 @@ const HomePage = () => {
             animate={servicesInView ? "visible" : "hidden"}
             className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3"
           >
-            {services.map((service, index) => (
+            {services.map((service) => (
               <motion.div
-                key={index}
+                key={service.title}
                 variants={fadeIn}
                 whileHover={{ y: -5, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
                 className="relative p-6 bg-white rounded-lg shadow-md transition-all duration-300"
