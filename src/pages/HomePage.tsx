@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from '../components/Carousel';
+import ClientLogoCarousel from '../components/ClientLogoCarousel';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { ArrowRight, Code, BarChart, Layers, Globe, Shield, Zap, CheckCircle } from 'lucide-react';
@@ -226,7 +227,7 @@ const HomePage = () => {
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-neutral-50 to-transparent"></div>
       </section>
-        <Carousel />
+      <Carousel />
 
       {/* Services Section */}
       <section id="services" className="py-20 bg-neutral-50">
@@ -497,6 +498,8 @@ const HomePage = () => {
         </div>
       </section>
 
+      <ClientLogoCarousel />
+      
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-primary-600 to-primary-500">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
