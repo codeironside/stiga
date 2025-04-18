@@ -30,18 +30,21 @@ const login = async (req, res) => {
 const getAuthenticatedUser = async (req, res) => {
   try {
     let authHeader = req.headers.authorization;
-    console.log(`authHeader: ${authHeader}`);
 
     if (typeof authHeader !== 'string' || !authHeader) {
-      return res.status(401).json({ message: 'Authorization header missing or invalid' });
+        return res.status(401).json({ message: 'Authorization header missing or invalid' });
     }
 
     const token = authHeader.split(' ')[1];
     console.log(token);
 
+    console.log(token);
+
     if (!token) {
-      return res.status(401).json({ message: 'Token missing' });
+        return res.status(401).json({ message: 'Token missing' });
     }
+
+    const trimmedToken = token.trim();
 
     const trimmedToken = token.trim();
 
