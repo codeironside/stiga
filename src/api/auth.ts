@@ -52,6 +52,7 @@ const useAuth = () => {
 
 export const getAuthenticatedUser = async () => {
   const token = localStorage.getItem('token');
+  console.log('Token:', token); 
   if (!token) return null;
 
   const response = await fetch("http://localhost:5000/api/auth/user", {

@@ -72,11 +72,12 @@ const AdminDashboard: React.FC = () => {
     const fetchUserData = async () => {
       setLoading(true);
       try {
-        const userData = await getUser();
+        const token = localStorage.getItem('token');
+        const userData = await getUser(token);
         if (userData) {
           setIsAdmin(userData.isAdmin ?? false); // Default to false if undefined
         } else {
-          console.error('User data is null or undefined');
+          console.error('User data is null or undefined :',userData);
         }
       } catch (error) {
         console.error('Error fetching user data:', error.message);

@@ -10,7 +10,7 @@ const login = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-console.log(`user: ${user}`);
+    console.log(`user: ${user}`);
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (isPasswordValid) {
       return res.status(401).json({ message: 'Invalid password' });
@@ -29,15 +29,21 @@ console.log(`user: ${user}`);
 
 const getAuthenticatedUser = async (req, res) => {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      return res.status(401).json({ message: 'Authorization header missing' });
+    let authHeader = req.headers.authorization;
+    console.log(`authHeader: ${authHeader}`);
+
+    if (typeof authHeader !== 'string' || !authHeader) {
+      return res.status(401).json({ message: 'Authorization header missing or invalid' });
     }
 
     const token = authHeader.split(' ')[1];
+    console.log(token);
+
     if (!token) {
       return res.status(401).json({ message: 'Token missing' });
     }
+
+    const trimmedToken = token.trim();
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.userId;
