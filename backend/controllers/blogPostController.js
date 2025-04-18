@@ -120,6 +120,9 @@ const updateBlogPost = async (req, res) => {
       res.status(200).json(updatedBlogPost);
     });
     res.status(500).json(err);
+  }catch(err) {
+    console.error(err);
+    res.status(500).json(err);
   }
 };
 

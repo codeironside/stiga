@@ -1,8 +1,9 @@
 
 import React, { useState } from 'react';
-import { login } from '../api/auth';
+import useAuth from '../api/auth';
 
 const Login: React.FC = () => {
+    const { login } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -11,15 +12,15 @@ const Login: React.FC = () => {
         event.preventDefault();
         setError(''); // Clear previous errors
 
-        const result = await login(username, password);
-        if (result.success) {
+        try {
+            const result = await login({ username, password });
             localStorage.setItem('token', result.token);
             console.log('Login successful');
             // Redirect or update state as needed (e.g., using React Router)
             window.location.href = '/admin';
-        } else {
-            setError(result.error || 'Login failed');
-            console.error('Login failed:', result.error);
+        } catch (err) {
+            setError((err as Error).message || 'Login failed');
+            console.error('Login failed:', err);
         }
     };
 
