@@ -3,10 +3,15 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+const getToken = () => localStorage.getItem('token');
+const clearToken = () => localStorage.removeItem('token');
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!getToken());
   const location = useLocation();
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -27,6 +32,11 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    setIsLoggedIn(!!getToken());
+  }, [location]);
+
+
   // Close mobile menu when route changes
   useEffect(() => {
     setIsMenuOpen(false);
@@ -43,6 +53,7 @@ const Navbar = () => {
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];
+
 
   const isActive = (path: string) => {
     if (path === '/' && location.pathname === '/') return true;
@@ -91,6 +102,22 @@ const Navbar = () => {
                 )}
               </Link>
             ))}
+            {isLoggedIn ? (
+              <button
+                onClick={() => {
+                  clearToken();
+                  setIsLoggedIn(false);
+                  window.location.href = '/';
+                }}
+                className="px-3 py-2 font-medium text-neutral-700 hover:text-primary-500 transition-colors duration-300"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link to="/login" className="px-3 py-2 font-medium text-neutral-700 hover:text-primary-500 transition-colors duration-300">
+                Login
+              </Link>
+            )}
           </nav>
           
           <div className="hidden md:flex items-center">
@@ -161,6 +188,20 @@ const Navbar = () => {
                 Get Started
               </Link>
             </motion.div>
+            {isLoggedIn ? (
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: (navLinks.length + 1) * 0.1 }}
+              >
+                <button onClick={() => {clearToken(); setIsLoggedIn(false);window.location.href = '/'}} className="block px-3 py-2 rounded-md text-base font-medium text-neutral-700 hover:text-primary-500 hover:bg-neutral-50">
+                  Logout
+                </button>
+              </motion.div>
+            ) : (
+              <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: (navLinks.length + 1) * 0.1 }}>
+                <Link to="/login" className="block px-3 py-2 rounded-md text-base font-medium text-neutral-700 hover:text-primary-500 hover:bg-neutral-50">Login</Link>
+              </motion.div>)}
           </div>
         </motion.div>
       )}
