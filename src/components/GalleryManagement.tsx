@@ -1,9 +1,9 @@
-tsx
+
 import React, { useState, useEffect } from 'react';
 import { getGalleryItems, addGalleryItem, deleteGalleryItem } from '../services/api';
 
 interface GalleryItem {
-  _id: string;
+  id: string;
   imageUrl: string;
   description: string;
 }
@@ -88,40 +88,68 @@ const GalleryManagement: React.FC = () => {
     }
   };
 
-  return (
-    <div>
-      <h2>Gallery Management</h2>
-      <form onSubmit={handleAddGalleryItem}>
-        <div>
-          <label htmlFor="image">Image:</label>
-          <input type="file" id="image" onChange={handleImageChange} />
-        </div>
-        <div>
-          <label htmlFor="description">Description:</label>
-          <input type="text" id="description" value={newDescription} onChange={handleDescriptionChange} />
-        </div>
-        <button type="submit" disabled={isLoading}>
-          Add Image
-        </button>
-      </form>
+  return (    
+    <div className="container mx-auto p-4">
+        <h2 className="text-2xl font-bold mb-4">Gallery Management</h2>
+        <form onSubmit={handleAddGalleryItem} className="mb-4">
+          <div className="mb-2">
+            <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-2">
+              Image:
+            </label>
+            <input
+              type="file"
+              id="image"
+              onChange={handleImageChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-2">
+            <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
+              Description:
+            </label>
+            <input
+              type="text"
+              id="description"
+              value={newDescription}
+              onChange={handleDescriptionChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50"
+          >
+            Add Image
+          </button>
+        </form>
 
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+        {error && <div className="text-red-500 mb-4">{error}</div>}
 
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul>
-          {galleryItems.map((item) => (
-            <li key={item._id}>
-              <img src={item.imageUrl} alt={item.description} style={{ width: '100px', height: '100px' }} />
-              <p>{item.description}</p>
-              <button onClick={() => handleDeleteImage(item._id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {galleryItems.map((item) => (
+              <div key={item.id} className="border rounded-lg p-4 shadow-md">
+                <img
+                  src={item.imageUrl}
+                  alt={item.description}
+                  className="w-full h-48 object-cover rounded-t-lg"
+                />
+                <p className="mt-2 text-gray-700">{item.description}</p>
+                <button
+                  onClick={() => handleDeleteImage(item.id)}
+                  className="mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
-export default GalleryManagement;
+  export default GalleryManagement;

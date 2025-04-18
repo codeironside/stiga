@@ -28,7 +28,7 @@ function App() {
   return (
       <Router>
         <ScrollToTop />
-        <div className="min-h-screen bg-neutral-50 font-sans text-neutral-800">
+        <div className="min-h-screen bg-neutral-50 font-sans text-neutral-800 w-full">
           <Navbar isLoggedIn={isLoggedIn} isAdmin={isAdmin} />
           <AnimatePresence mode="wait">
             <Routes>

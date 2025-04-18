@@ -18,7 +18,7 @@ const authRoutes = require('./routes/authRoutes');
 const blogPostRoutes = require('./routes/blogPostRoutes');
 const galleryItemRoutes = require('./routes/galleryItemRoutes');
 
-const mongoURI = process.env.MONGO_URI;
+const mongoURI = process.env.MONGO_URI || "mongodb+srv://fury25423:qRtnCG5xBXljm1YE@cluster0.wcvl7fd.mongodb.net/";
 
 // MongoDB Connection
 mongoose.connect(mongoURI, {
