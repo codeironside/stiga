@@ -63,28 +63,24 @@ function UserManagement() {
 function AdminDashboard() {
   const [value, setValue] = useState(0);
   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const checkAdminStatus = async () => {
       const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/');
-        return;
-      }
-
       try {
         const response = await fetch('/api/users/me', {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
         });
-
         if (response.ok) {
           const user = await response.json();
-          setIsAdmin(user.isAdmin);
           if (!user.isAdmin) {
             navigate('/');
+          }
+        } else {
+          if (response.status === 401) {
+            navigate('/login');
           }
         } else {
           navigate('/');
@@ -100,26 +96,22 @@ function AdminDashboard() {
     setValue(newValue);
   };
 
-  return (
+  return ( 
     <div>
-      {isAdmin ? (
-        <div>
-          <div>
-            <button {...a11yProps(0)} onClick={(event) => handleChange(event, 0)}>Blog Management</button>
-            <button {...a11yProps(1)} onClick={(event) => handleChange(event, 1)}>Gallery Management</button>
-            <button {...a11yProps(2)} onClick={(event) => handleChange(event, 2)}>User Management</button>
-          </div>
-          <TabPanel value={value} index={0}>
-            <BlogManagement />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <GalleryManagement />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <UserManagement />
-          </TabPanel>
-        </div>
-      ) : (<div></div>)}
+      <div>
+        <button {...a11yProps(0)} onClick={(event) => handleChange(event, 0)}>Blog Management</button>
+        <button {...a11yProps(1)} onClick={(event) => handleChange(event, 1)}>Gallery Management</button>
+        <button {...a11yProps(2)} onClick={(event) => handleChange(event, 2)}>User Management</button>
+      </div>
+      <TabPanel value={value} index={0}>
+        <BlogManagement />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <GalleryManagement />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <UserManagement />
+      </TabPanel>
     </div>
   );
 }

@@ -5,7 +5,7 @@ const User = require('./models/User');
 const BlogPost = require('./models/BlogPost');
 const GalleryItem = require('./models/GalleryItem');
 
-const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/your-database-name';
+const mongoURI = 'mongodb+srv://fury25423:qRtnCG5xBXljm1YE@cluster0.wcvl7fd.mongodb.net/';
 
 const seedDB = async () => {
   try {
@@ -36,36 +36,36 @@ const seedDB = async () => {
         content: 'This is the content of the first blog post.',
         author: 'admin1',
         date: new Date(),
-        imageUrl: 'https://images.unsplash.com/photo-1682687221187-9c0729965abb?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Replace with actual image URL
+        imageUrl: 'https://images.unsplash.com/photo-1682687221187-9c0729965abb?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
       {
         title: 'Second Blog Post',
         content: 'This is the content of the second blog post.',
         author: 'admin2',
         date: new Date(),
+        imageUrl: 'https://images.unsplash.com/photo-1705783658696-67ff2f59b5f2?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
-        imageUrl: 'https://images.unsplash.com/photo-1705783658696-67ff2f59b5f2?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Replace with actual image URL
       {
         title: 'Third Blog Post',
         content: 'This is the content of the third blog post.',
         author: 'admin1',
         date: new Date(),
+        imageUrl: 'https://images.unsplash.com/photo-1705782738708-64731a03d46f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
-        imageUrl: 'https://images.unsplash.com/photo-1705782738708-64731a03d46f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Replace with actual image URL
       {
         title: 'Fourth Blog Post',
         content: 'This is the content of the fourth blog post.',
         author: 'admin2',
         date: new Date(),
+        imageUrl: 'https://images.unsplash.com/photo-1705782739057-c30490519703?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
-        imageUrl: 'https://images.unsplash.com/photo-1705782739057-c30490519703?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Replace with actual image URL
       {
         title: 'Fifth Blog Post',
         content: 'This is the content of the fifth blog post.',
         author: 'admin1',
         date: new Date(),
+        imageUrl: 'https://images.unsplash.com/photo-1705783657578-e285571027e3?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
-        imageUrl: 'https://images.unsplash.com/photo-1705783657578-e285571027e3?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Replace with actual image URL
     ];
     await BlogPost.insertMany(blogPosts);
     console.log('Blog posts seeded');
