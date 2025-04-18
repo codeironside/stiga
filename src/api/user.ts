@@ -21,7 +21,7 @@ export const getAllUsers = async (token: string, page: number = 1, limit: number
 
 export const getUser = async (token: string) => {
   try {
-    const response = await axios.get(`${BASE_URL}/users/me`, {
+    const response = await axios.get(`${BASE_URL}/auth/user`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -1,6 +1,4 @@
 
---- a/src/components/AdminDashboardTabs.tsx
-+++ b/src/components/AdminDashboardTabs.tsx
 import React, { useState } from 'react';
 import BlogManagement from './BlogManagement';
 import GalleryManagement from './GalleryManagement';
