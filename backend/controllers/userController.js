@@ -11,13 +11,25 @@ const createUser = async (req, res) => {
   }
 };
 
-const getAllUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+ const getAllUsers = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
+        const skip = (page - 1) * limit;
+        const totalItems = await User.countDocuments();
+
+        const users = await User.find()
+            .skip(skip)
+            .limit(limit);
+
+        res.status(200).json({
+            users,
+            totalItems,
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+ };
 
 module.exports = { createUser, getAllUsers };

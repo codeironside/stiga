@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 interface BlogPost {
   _id: string;
@@ -7,23 +7,28 @@ interface BlogPost {
   content: string;
   author: string;
   date: string;
+  imageUrl: string;
 }
+import { getAllBlogPosts, createBlogPost, deleteBlogPost } from '../api/blog';
 
 const BlogManagement: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const itemsPerPage = 6;
   const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
-    const fetchBlogPosts = async () => {
+    const getBlogPosts = async () => {
       try {
-        const response = await fetch('/api/blog');
-        if (!response.ok) {
-          throw new Error('Failed to fetch blog posts');
-        }
-        const data = await response.json();
-        setBlogPosts(data);
+        setLoading(true);
+        const result = await getAllBlogPosts(currentPage, itemsPerPage);
+        setBlogPosts(result.data);
+        setTotalItems(result.totalItems);
+        setTotalPages(Math.ceil(result.totalItems / itemsPerPage));
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -31,24 +36,24 @@ const BlogManagement: React.FC = () => {
       }
     };
 
-    fetchBlogPosts();
-  }, []);
+    getBlogPosts();
+  }, [currentPage]);
 
   const handleDelete = async (id: string) => {
     try {
-      const response = await fetch(`/api/blog/${id}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) {
-        throw new Error('Failed to delete blog post');
-      }
-      setBlogPosts(blogPosts.filter((post) => post._id !== id));
+      await deleteBlogPost(id);
+      setBlogPosts(blogPosts.filter((post) => post._id !== id))
     } catch (err: any) {
       setError(err.message);
     }
   };
 
-  const [newPost, setNewPost] = useState({ title: '', content: '', author: '' });
+  const [newPost, setNewPost] = useState({
+    title: '',
+    content: '',
+    author: '',
+    imageUrl: '',
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -58,17 +63,10 @@ const BlogManagement: React.FC = () => {
   const handleAddSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/blog', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newPost),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to add blog post');
-      }
-      const addedPost = await response.json();
+      const addedPost = await createBlogPost(
+        newPost.title,
+        newPost.content,
+        newPost.author, newPost.imageUrl);
       setBlogPosts([...blogPosts, addedPost]);
       setNewPost({ title: '', content: '', author: '' });
       setShowAddForm(false);
@@ -80,12 +78,16 @@ const BlogManagement: React.FC = () => {
   const toggleAddForm = () => {
     setShowAddForm(!showAddForm);
     if (!showAddForm) {
-        setNewPost({ title: '', content: '', author: '' });
+      setNewPost({ title: '', content: '', author: '' });
     }
   }
 
   const handleEdit = (id: string) => {
     console.log(`Edit blog post with ID: ${id}`);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
   };
 
   if (loading) {
@@ -112,7 +114,9 @@ const BlogManagement: React.FC = () => {
           <div className="mb-2">
             <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-1">
               Title:
-            </label>
+            </label >
+
+
             <input
               type="text"
               id="title"
@@ -122,6 +126,7 @@ const BlogManagement: React.FC = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required
             />
+
           </div>
           <div className="mb-2">
             <label htmlFor="content" className="block text-gray-700 text-sm font-bold mb-1">
@@ -136,13 +141,29 @@ const BlogManagement: React.FC = () => {
               required
             />
           </div>
+
           <div className="mb-2">
             <label htmlFor="author" className="block text-gray-700 text-sm font-bold mb-1">
               Author:
             </label>
+
+
             <input
               type="text"
               id="author"
+
+
+
+
+
+
+
+
+
+
+
+
+
               name="author"
               value={newPost.author}
               onChange={handleInputChange}
@@ -150,8 +171,35 @@ const BlogManagement: React.FC = () => {
               required
             />
           </div>
-          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+
+          <div className="mb-2">
+            <label htmlFor="imageUrl" className="block text-gray-700 text-sm font-bold mb-1">
+              Image URL:
+            </label>
+
+
+            <input
+              type="text"
+              id="imageUrl"
+              name="imageUrl"
+              value={newPost.imageUrl}
+              onChange={handleInputChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              required
+            />
+          </div>
+
+
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
             Add Post
+
+
+
+
+
           </button>
         </form>
       )}
@@ -161,19 +209,57 @@ const BlogManagement: React.FC = () => {
           <div key={post._id} className="bg-white p-4 rounded shadow">
             <h3 className="text-lg font-bold">{post.title}</h3>
             <p className="text-gray-700">{post.content}</p>
-            <p className="text-gray-500">Author: {post.author}</p>
-            <p className="text-gray-500">Date: {new Date(post.date).toLocaleDateString()}</p>
+            <p className="text-gray-500 mt-2">Author: {post.author}</p>
+            <p className="text-gray-500">
+              Date: {new Date(post.date).toLocaleDateString()}
+            </p>
             <div className="mt-2">
-              <button onClick={() => handleEdit(post._id)} className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-2">
+              <button
+                onClick={() => handleEdit(post._id)}
+                className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-2"
+              >
                 Edit
               </button>
-              <button onClick={() => handleDelete(post._id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <button
+                onClick={() => handleDelete(post._id)}
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+              >
                 Delete
               </button>
             </div>
           </div>
         ))}
       </div>
+      {totalPages > 1 && (
+        <div className="mt-4 flex justify-center">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => handlePageChange(page)}
+              className={`mx-1 px-3 py-2 rounded ${
+                currentPage === page
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-200 hover:bg-gray-300'
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -11,13 +11,22 @@ const createBlogPost = async (req, res) => {
   }
 };
 
-// Get all blog posts
 const getAllBlogPosts = async (req, res) => {
   try {
-    const blogPosts = await BlogPost.find();
-    res.status(200).json(blogPosts);
-  } catch (err) {
-    res.status(500).json(err);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const totalItems = await BlogPost.countDocuments();
+    const blogPosts = await BlogPost.find()
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    res.status(200).json({
+      items: blogPosts,
+      totalItems,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 

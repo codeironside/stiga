@@ -49,7 +49,7 @@ const ContactSection = () => {
               <div className="flex items-start">
                 <div className="flex-shrink-0">
                   <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
-                    <Phone className="h-6 w-6" />
+                    <Phone className="h-6 w-6 text-white" />
                   </div>
                 </div>
                 <div className="ml-4">
@@ -61,7 +61,7 @@ const ContactSection = () => {
               <div className="flex items-start">
                 <div className="flex-shrink-0">
                   <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
-                    <Mail className="h-6 w-6" />
+                    <Mail className="h-6 w-6 text-white" />
                   </div>
                 </div>
                 <div className="ml-4">
@@ -73,7 +73,7 @@ const ContactSection = () => {
               <div className="flex items-start">
                 <div className="flex-shrink-0">
                   <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
-                    <MapPin className="h-6 w-6" />
+                    <MapPin className="h-6 w-6 text-white" />
                   </div>
                 </div>
                 <div className="ml-4">

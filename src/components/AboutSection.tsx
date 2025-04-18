@@ -5,7 +5,7 @@ import { useState } from "react";
 // About Us page component
 const AboutPage = () => {
   return (
-    <section className="py-20 bg-dark-blue text-white">
+    <section className="py-20 bg-gray-100 text-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -13,10 +13,10 @@ const AboutPage = () => {
           transition={{ duration: 1 }}
           className="text-center"
         >
-          <h2 className="text-4xl font-display font-extrabold leading-tight text-neutral-100">
+          <h2 className="text-4xl font-display font-extrabold leading-tight text-blue-900">
             About Us
           </h2>
-          <p className="mt-4 max-w-3xl text-lg text-neutral-300 lg:mx-auto">
+          <p className="mt-4 max-w-3xl text-lg text-gray-700 lg:mx-auto">
             At Striga, we specialize in providing secure and innovative solutions for industries like IT, security, construction, and real estate. Through strategic relationships, partnerships, and targeted sponsorships, we position ourselves as a leader in the space of technology risk mitigation and secure solutions.
           </p>
         </motion.div>
@@ -32,12 +32,12 @@ const AboutPage = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 1 }}
-              className="bg-neutral-800 p-8 rounded-lg shadow-lg"
+              className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
             >
-              <h3 className="text-2xl font-medium text-neutral-100">
+              <h3 className="text-2xl font-medium text-blue-800">
                 1. Networking and Relationship Building
               </h3>
-              <p className="mt-4 text-neutral-300">
+              <p className="mt-4 text-gray-600">
                 Networking is at the heart of our strategy. We join industry-specific groups in IT, security, construction, and real estate sectors, establishing credibility through participation in events. These connections not only enhance our network but also provide us with opportunities to showcase our expertise.
               </p>
 
@@ -47,14 +47,14 @@ const AboutPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 1 }}
               >
-                <h4 className="text-xl font-medium text-neutral-100">Industry-Specific Networking</h4>
-                <p className="text-neutral-300">
+                <h4 className="text-xl font-medium text-blue-700">Industry-Specific Networking</h4>
+                <p className="text-gray-700">
                   We actively engage with local chambers of commerce and other industry leaders, attending events and forming connections with influential businesses and government organizations.
                 </p>
               </motion.div>
 
               <motion.div
-                className="mt-8"
+                className="mt-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.1, duration: 1 }}
@@ -66,7 +66,7 @@ const AboutPage = () => {
               </motion.div>
 
               <motion.div
-                className="mt-8"
+                className="mt-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.4, duration: 1 }}
@@ -82,9 +82,9 @@ const AboutPage = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.7, duration: 1 }}
-              className="bg-neutral-800 p-8 rounded-lg shadow-lg"
+              className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
             >
-              <h3 className="text-2xl font-medium text-neutral-100">
+              <h3 className="text-2xl font-medium text-blue-800">
                 2. Targeted Sponsorships and Partnerships
               </h3>
               <p className="mt-4 text-neutral-300">

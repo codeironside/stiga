@@ -37,17 +37,17 @@ const services = [
 const ServicesSection = () => {
   return (
     <section id="services" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 ">
         <div className="text-center">
-            <h2 className="text-base text-primary font-semibold tracking-wide uppercase">Services</h2>
+            <h2 className="text-base text-[#333333] font-semibold tracking-wide uppercase">Services</h2>
 
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-neutral sm:text-4xl">
 
             What We Offer
           </p>
             <p className="mt-4 max-w-2xl text-xl text-neutral lg:mx-auto">
-
-            Comprehensive solutions to help your business thrive in the digital landscape.
+            We are a full-service digital agency that specializes in web design, web development,
+            and search engine optimization.
           </p>
         </div>
 
@@ -58,12 +58,13 @@ const ServicesSection = () => {
               className="relative p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
             >
               <div>
-                <div className="absolute h-12 w-12 rounded-md bg-blue-600 flex items-center justify-center">
+                <div className="absolute h-12 w-12 rounded-md bg-[#f6871f] flex items-center justify-center">
                   <service.icon className="h-6 w-6 text-white" aria-hidden="true" />
                 </div>
                 <div className="ml-16">
                   <h3 className="text-lg font-medium text-neutral">{service.title}</h3>
                   <p className="mt-2 text-base text-neutral">{service.description}</p>
+                  <p className="mt-2 text-base text-neutral">Starting at: <span className='font-bold'>$99</span></p>
                 </div>
               </div>
               <div className="mt-6 ml-16">

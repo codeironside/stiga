@@ -32,12 +32,21 @@ const addGalleryItem = async (req, res) => {
 
 // Get all gallery items
 const getAllGalleryItems = async (req, res) => {
-  try {
-    const galleryItems = await GalleryItem.find();
-    res.status(200).json(galleryItems);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+    
+        const galleryItems = await GalleryItem.find()
+          .skip(skip)
+          .limit(limit);
+    
+        const totalItems = await GalleryItem.countDocuments();
+    
+        res.status(200).json({ galleryItems, totalItems });
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
 };
 
 // Delete a gallery item

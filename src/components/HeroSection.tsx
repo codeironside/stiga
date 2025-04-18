@@ -147,7 +147,7 @@ const HeroSection = () => {
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto bg-gradient-to-br from-blue-50 to-white py-12 rounded-lg shadow-xl">
         <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
           <svg
             className={`hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2 animate-draw delay-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
@@ -164,12 +164,12 @@ const HeroSection = () => {
 
           <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
             <div className="sm:text-center lg:text-left" style={{ transform: `translateY(${parallaxOffset}px)` }}>
-              <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+              <h1 className="text-4xl tracking-tight font-extrabold text-gray-800 sm:text-5xl md:text-6xl">
                 <span className={`block xl:inline ${isLoaded ? 'animate-fade-in-right' : 'opacity-0'}`}>
                   Innovative solutions for
                 </span>{' '}
-                <span className={`block text-blue-600 xl:inline ${isLoaded ? 'animate-fade-in-right delay-200' : 'opacity-0'}`}>
-                  your business
+                <span className={`block text-orange-500 xl:inline ${isLoaded ? 'animate-fade-in-right delay-200' : 'opacity-0'}`}>
+                  Your Business
                 </span>
               </h1>
               <p className={`mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 ${isLoaded ? 'animate-fade-in-right delay-300' : 'opacity-0'}`}>
@@ -178,7 +178,7 @@ const HeroSection = () => {
               <div className={`mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start ${isLoaded ? 'animate-fade-in-up delay-400' : 'opacity-0'}`}>
                 <div className="rounded-md shadow">
                   <a
-                    href="#contact"
+                    href="/contact"
                     className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10 btn-hover-effect transition-all"
                   >
                     Get started
@@ -186,7 +186,7 @@ const HeroSection = () => {
                 </div>
                 <div className="mt-3 sm:mt-0 sm:ml-3">
                   <a
-                    href="#services"
+                    href="/services"
                     className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 md:py-4 md:text-lg md:px-10 btn-hover-effect transition-all group"
                   >
                     Learn more

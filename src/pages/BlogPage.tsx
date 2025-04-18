@@ -204,7 +204,7 @@ const BlogPage = () => {
               animate={inView ? "visible" : "hidden"}
               className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
             >
-              {filteredPosts.map((post) => (
+              {filteredPosts.map((post, index) => (
                 <motion.div
                   key={post.id}
                   variants={fadeIn}
@@ -300,7 +300,7 @@ const BlogPage = () => {
               </form>
               <p className="mt-3 text-sm text-neutral-500">
                 We care about your data. Read our{' '}
-                <Link to="/privacy" className="font-medium text-primary-600 hover:text-primary-500">
+                <Link to="/privacy" className="font-medium text-primary-500 hover:text-primary-400">
                   Privacy Policy
                 </Link>.
               </p>

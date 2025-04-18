@@ -52,7 +52,7 @@ const AboutPage = () => {
   }));
 
   return (
-    <section ref={containerRef} className="relative overflow-hidden bg-white text-gray-800 min-h-screen">
+    <section ref={containerRef} className="relative overflow-hidden bg-background-50 text-gray-800 min-h-screen">
       {/* Animated background particles */}
       <motion.div 
         className="absolute inset-0 z-0" 
@@ -100,7 +100,7 @@ const AboutPage = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="text-6xl font-display font-extrabold leading-none text-primary-500"
+            className="text-6xl font-display font-extrabold leading-none text-primary-700"
           >
             About Striga
           </motion.h2>
@@ -109,7 +109,7 @@ const AboutPage = () => {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 1, delay: 0.3 }}
-            className="h-1 w-24 bg-primary-400 mx-auto mt-8 mb-8"
+            className="h-1 w-24 bg-primary-500 mx-auto mt-8 mb-8"
           />
           
           <motion.p
@@ -136,7 +136,7 @@ const AboutPage = () => {
             transition={{ type: "spring", stiffness: 50 }}
           >
             <motion.div
-              className="bg-white shadow-xl p-10 rounded-2xl border border-primary-100"
+              className="bg-white shadow-xl p-10 rounded-2xl border border-background-200"
               initial="hidden"
               animate={section1InView ? "visible" : "hidden"}
               variants={cardVariants}
@@ -168,14 +168,14 @@ const AboutPage = () => {
                 </motion.div>
                 <div>
                   <motion.h3
-                    className="text-3xl font-bold text-primary-600"
+                    className="text-3xl font-bold text-primary-700"
                     initial={{ opacity: 0, x: -20 }}
                     animate={section1InView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                   >
                     Networking & Relationship Building
                   </motion.h3>
-                  <motion.p
+                  <motion.p 
                     className="mt-4 text-gray-600 leading-relaxed"
                     initial={{ opacity: 0 }}
                     animate={section1InView ? { opacity: 1 } : { opacity: 0 }}
@@ -194,14 +194,14 @@ const AboutPage = () => {
                     initial={{ opacity: 0, x: -50 }}
                     animate={section1InView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
                     transition={{ duration: 0.5, delay: 0.6 + (i * 0.2) }}
-                    className="bg-background-100 p-4 rounded-lg border-l-4 border-primary-400"
+                    className="bg-background-100 p-4 rounded-lg border-l-4 border-primary-500"
                   >
-                    <h4 className="text-xl font-semibold text-primary-500">{item}</h4>
+                    <h4 className="text-xl font-semibold text-primary-700">{item}</h4>
                     <p className="mt-2 text-gray-600">
                       {i === 0 && "We actively engage with local chambers of commerce and other industry leaders, forming connections with influential businesses."}
                       {i === 1 && "We host exclusive dinners and meetups for executives and government officials, where we present Striga's value."}
                       {i === 2 && "Using our connections, we engage with key individuals that help position Striga as a trusted provider of innovative solutions."}
-                    </p>
+                    </p >
                   </motion.div>
                 ))}
               </div>
@@ -220,7 +220,7 @@ const AboutPage = () => {
             transition={{ type: "spring", stiffness: 50 }}
           >
             <motion.div
-              className="bg-white shadow-xl p-10 rounded-2xl border border-primary-100"
+              className="bg-white shadow-xl p-10 rounded-2xl border border-background-200"
               initial="hidden"
               animate={section2InView ? "visible" : "hidden"}
               variants={cardVariants}
@@ -258,7 +258,7 @@ const AboutPage = () => {
                 </motion.div>
                 <div>
                   <motion.h3
-                    className="text-3xl font-bold text-primary-600"
+                    className="text-3xl font-bold text-primary-700"
                     initial={{ opacity: 0, x: -20 }}
                     animate={section2InView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
@@ -297,7 +297,7 @@ const AboutPage = () => {
                 />
                 
                 <motion.h4 
-                  className="text-2xl font-bold text-primary-600 mb-4"
+                  className="text-2xl font-bold text-primary-700 mb-4"
                   initial={{ opacity: 0 }}
                   animate={section2InView ? { opacity: 1 } : { opacity: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
@@ -315,7 +315,7 @@ const AboutPage = () => {
                       className="flex items-center"
                     >
                       <motion.div 
-                        className="h-2 w-2 bg-primary-500 rounded-full mr-3"
+                        className="h-2 w-2 bg-primary-700 rounded-full mr-3"
                         animate={{ 
                           scale: [1, 1.3, 1],
                         }}
@@ -343,12 +343,12 @@ const AboutPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.2 }}
             transition={{ duration: 1 }}
-            fill="#003366"
+            fill="#002B55"
             d="M0,288L48,272C96,256,192,224,288,218.7C384,213,480,235,576,234.7C672,235,768,213,864,213.3C960,213,1056,235,1152,229.3C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
           />
         </svg>
       </div>
-    </section>
+    </section >
   );
 };
 

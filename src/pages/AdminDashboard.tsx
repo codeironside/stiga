@@ -60,43 +60,50 @@ function UserManagement() {
   );
 }
 
-function AdminDashboard() {
+import { getUser } from '../api/user'; // Assuming you have a getUser function
+
+const AdminDashboard: React.FC = () => {
   const [value, setValue] = useState(0);
   const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
-      const token = localStorage.getItem('token');
+    const fetchUserData = async () => {
+      setLoading(true);
       try {
-        const response = await fetch('/api/users/me', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-        if (response.ok) {
-          const user = await response.json();
-          if (!user.isAdmin) {
-            navigate('/');
-          }
+        const userData = await getUser();
+        if (userData) {
+          setIsAdmin(userData.isAdmin ?? false); // Default to false if undefined
         } else {
-          if (response.status === 401) {
-            navigate('/login');
-          }
-        } else {
-          navigate('/');
+          console.error('User data is null or undefined');
         }
       } catch (error) {
-        navigate('/');
+        console.error('Error fetching user data:', error.message);
       }
+      setLoading(false);
     };
-    checkAdminStatus();
-  }, [navigate]);
+    fetchUserData();
+  }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  return ( 
+  if (loading) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    navigate('/');
+    return null;
+  }
+
+  return (
     <div>
       <div>
         <button {...a11yProps(0)} onClick={(event) => handleChange(event, 0)}>Blog Management</button>
@@ -110,7 +117,7 @@ function AdminDashboard() {
         <GalleryManagement />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <UserManagement />
+        <UserManagement  />
       </TabPanel>
     </div>
   );

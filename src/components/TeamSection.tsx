@@ -50,24 +50,21 @@ const team = [
 
 const TeamSection = () => {
   return (
-    <section id="team" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-            <h2 className="text-base text-primary font-semibold tracking-wide uppercase">Our Team</h2>
-
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-neutral sm:text-4xl">
-
+    <section id="team" className="py-20 bg-secondary">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 ">
+        <div className="text-center text-neutral">
+          <h2 className="text-base text-primary font-semibold tracking-wide uppercase">Our Team</h2>
+          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight  sm:text-4xl">
             Meet the People Behind ACME
           </p>
-            <p className="mt-4 max-w-2xl text-xl text-neutral lg:mx-auto">
-
+          <p className="mt-4 max-w-2xl text-xl  lg:mx-auto">
             Our diverse team of experts is passionate about delivering exceptional results.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {team.map((person, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div key={index} className="bg-neutral rounded-lg shadow-md overflow-hidden">
               <img className="w-full h-64 object-cover" src={person.image} alt={person.name} />
               <div className="p-6">
                 <h3 className="text-lg font-medium text-neutral">{person.name}</h3>
