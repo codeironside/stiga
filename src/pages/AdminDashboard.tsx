@@ -105,7 +105,7 @@ const AdminDashboard: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="container mx-auto mt-8 p-6 bg-gray-100 rounded-lg shadow-md md:p-8 lg:p-10">
       <div>
         <button {...a11yProps(0)} onClick={(event) => handleChange(event, 0)}>Blog Management</button>
         <button {...a11yProps(1)} onClick={(event) => handleChange(event, 1)}>Gallery Management</button>

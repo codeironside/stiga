@@ -82,45 +82,48 @@ const AdminDashboardTabs: React.FC = () => {
           <option value="users">Users</option>
         </select>
       </div>
-      <div className="hidden sm:block">
-        <div className="border-b border-gray-200">
-          <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-            <button
-              onClick={() => setActiveTab('blog')}
-              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'blog'
-                  ? 'border-stiga-orange text-stiga-orange'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Blog
-            </button>
-            <button
-              onClick={() => setActiveTab('gallery')}
-              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'gallery'
-                  ? 'border-stiga-orange text-stiga-orange'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Gallery
-            </button>
-            <button
-              onClick={() => setActiveTab('users')}
-              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'users'
-                  ? 'border-stiga-orange text-stiga-orange'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Users
-            </button>
-          </nav>
+      <div className="hidden sm:block mt-4">
+        <nav className="flex justify-center rounded-lg overflow-hidden" aria-label="Tabs">
+          <button
+            onClick={() => setActiveTab('blog')}
+            className={`px-6 py-3 font-medium text-sm rounded-l-lg ${
+              activeTab === 'blog'
+                ? 'bg-stiga-orange text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            } focus:outline-none focus:ring-2 focus:ring-stiga-orange focus:z-10`}
+            style={{ fontFamily: 'Montserrat, sans-serif' }}
+          >
+            Blog
+          </button>
+          <button
+            onClick={() => setActiveTab('gallery')}
+            className={`px-6 py-3 font-medium text-sm  ${
+              activeTab === 'gallery'
+                ? 'bg-stiga-orange text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            } focus:outline-none focus:ring-2 focus:ring-stiga-orange focus:z-10`}
+            style={{ fontFamily: 'Montserrat, sans-serif' }}
+          >
+            Gallery
+          </button>
+          <button
+            onClick={() => setActiveTab('users')}
+            className={`px-6 py-3 font-medium text-sm rounded-r-lg ${
+              activeTab === 'users'
+                ? 'bg-stiga-orange text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            } focus:outline-none focus:ring-2 focus:ring-stiga-orange focus:z-10`}
+            style={{ fontFamily: 'Montserrat, sans-serif' }}
+          >
+            Users
+          </button>
+        </nav>
+        <div className="mt-6 p-6 bg-gray-50 rounded-lg">
+          {activeTab === 'blog' && <BlogManagement />}
+          {activeTab === 'gallery' && <GalleryManagement />}
+          {activeTab === 'users' && <UserManagement />}
         </div>
       </div>
-      {activeTab === 'blog' && <div className="p-4"><BlogManagement /></div>}
-      {activeTab === 'gallery' && <div className="p-4"><GalleryManagement /></div>}
-      {activeTab === 'users' && <div className="p-4"><UserManagement /></div>}
     </div>
   );
 };
