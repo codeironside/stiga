@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import { useAuth } from '../App';
 import { motion } from 'framer-motion';
 
 const getToken = () => localStorage.getItem('token');
 const clearToken = () => localStorage.removeItem('token');
 
 const Navbar = () => {
+  const location = useLocation(); // Added to fix undefined location error
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(!!getToken());
@@ -122,23 +123,25 @@ const Navbar = () => {
             )}
           </nav>
           
-          <div className="hidden md:flex items-center space-x-4">
-            {isLoggedIn ? (
-              <Link
-                to="/admin"
-                className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-secondary-500 hover:bg-secondary-600 transition-all duration-300"
-              >
-                Dashboard
-              </Link>
-            ) : (
-              <Link
-                to="/contact"
-                className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 transition-all duration-300"
-            >
-              Get Started
-            </Link>
-          </div>
-          
+          <>
+            <div className="hidden md:flex items-center space-x-4">
+              {isLoggedIn ? (
+                <Link
+                  to="/admin"
+                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-secondary-500 hover:bg-secondary-600 transition-all duration-300"
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 transition-all duration-300"
+                >
+                  Get Started
+                </Link>
+              )}
+            </div>
+          </>
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
             <button
@@ -185,38 +188,34 @@ const Navbar = () => {
                   {link.name}
                 </Link>
               </motion.div>
-            ))}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: navLinks.length * 0.1 }}
-            >
-                {isLoggedIn ? (<Link
-                to="/contact"
-                className="block w-full text-center mt-3 px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600"
-              >
-                Get Started
-              </Link>
-            </motion.div>
-            {isLoggedIn ? (
-                to="/admin"
-                className="block w-full text-center mt-3 px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600"
-              >
-                Dashboard
-              </Link>) : (<Link
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: (navLinks.length + 1) * 0.1 }}
-              >
-                <button onClick={() => {clearToken(); setIsLoggedIn(false);window.location.href = '/'}} className="block px-3 py-2 rounded-md text-base font-medium text-neutral-700 hover:text-primary-500 hover:bg-neutral-50">
-                  Logout
-                </button>
-              </motion.div>
-            ) : (</Link>
-              <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: (navLinks.length + 1) * 0.1 }}>
-                <Link to="/login" className="block px-3 py-2 rounded-md text-base font-medium text-neutral-700 hover:text-primary-500 hover:bg-neutral-50">Login</Link>
-              </motion.div>)}
+            ))}            
+              {isLoggedIn ? (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: navLinks.length * 0.1 }}
+                >
+                  <Link
+                    to="/admin"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-neutral-700 hover:text-primary-500 hover:bg-neutral-50"
+                  >
+                    Dashboard
+                  </Link>
+                </motion.div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: navLinks.length * 0.1 }}
+                >
+                  <Link
+                    to="/login"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-neutral-700 hover:text-primary-500 hover:bg-neutral-50"
+                  >
+                    Login
+                  </Link>
+                </motion.div>
+              )}
           </div>
         </motion.div>
       )}
