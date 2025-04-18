@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { getGalleryItems, addGalleryItem, deleteGalleryItem } from '../api/gallery';
+import { getAllGalleryItems, addGalleryItem, deleteGalleryItem } from '../api/gallery';
 
 interface GalleryItem {
   id: string;
@@ -22,12 +21,12 @@ const GalleryManagement: React.FC = () => {
 
   useEffect(() => {
     fetchGalleryItems();
-  }, [page, limit]);
+  }, [currentPage]);
 
   const fetchGalleryItems = async () => {
     setLoading(true);
     try {
-      const result = await getGalleryItems(currentPage, itemsPerPage);
+      const result = await getAllGalleryItems(currentPage, itemsPerPage);
       setGalleryItems(result.items);
       setTotalItems(result.totalItems);
       setTotalPages(Math.ceil(result.totalItems / itemsPerPage));
@@ -67,7 +66,7 @@ const GalleryManagement: React.FC = () => {
     if (!newImage) {
       setError('Please select an image.');
       setLoading(false);
-      return
+      return;
     }
 
     try {
@@ -82,8 +81,6 @@ const GalleryManagement: React.FC = () => {
       setPreviewImageUrl(null);
     } catch (err) {
       setError('Failed to add gallery item.');
-      // In a real app, you might want to log this error to a service
-      // for debugging purposes.  For now, we'll just console.log it.
       console.error(err);
     } finally {
       setLoading(false);
@@ -91,23 +88,20 @@ const GalleryManagement: React.FC = () => {
   };
 
   const handleDeleteImage = async (id: string) => {
-    setLoading(true)
-        setError(null);
+    setLoading(true);
+    setError(null);
     try {
       await deleteGalleryItem(id);
       fetchGalleryItems();
     } catch (err) {
       setError('Failed to delete gallery item.');
-      // In a real app, you might want to log this error to a service
-      // for debugging purposes.  For now, we'll just console.log it.
       console.error(err);
     } finally {
-      // Always set isLoading to false, even if there's an error
       setLoading(false);
     }
   };
 
-  return (    
+  return (
     <div className="container mx-auto p-4 relative">
       {loading && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 bg-opacity-50 z-10">
@@ -130,71 +124,73 @@ const GalleryManagement: React.FC = () => {
           0% { -webkit-transform: rotate(0deg); }
           100% { -webkit-transform: rotate(360deg); }
         }
+      `}</style>
+      <h2 className="text-2xl font-bold mb-4">Gallery Management</h2>
+      <form onSubmit={handleAddGalleryItem} className="mb-4" encType="multipart/form-data">
+        <div className="mb-2">
+          <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-2">
+            Image:
+          </label>
+          <input
+            type="file"
+            id="image"
+            onChange={handleImageChange}
+            accept="image/*"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          {previewImageUrl && (
+            <div className="mt-2">
+              <img
+                src={previewImageUrl}
+                alt="Image preview"
+                className="h-32 w-32 object-cover rounded"
+              />
+            </div>
+          )}
+        </div>
+        <div className="mb-2">
+          <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
+            Description:
+          </label>
+          <input
+            type="text"
+            id="description"
+            value={newDescription}
+            onChange={handleDescriptionChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-[#192241] hover:bg-[#374676] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50 mt-2"
+        >
+          Add Image
+        </button>
+      </form>
 
-        <h2 className="text-2xl font-bold mb-4">Gallery Management</h2>
-        <form onSubmit={handleAddGalleryItem} className="mb-4" encType="multipart/form-data">
-          <div className="mb-2">
-            <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-2">
-              Image:
-            </label>
-            <input
-              type="file"
-              id="image"
-              onChange={handleImageChange}
-              accept="image/*"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      {error && <div className="text-red-500 mb-4">{error}</div>}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 relative">
+        {galleryItems.map((item) => (
+          <div key={item.id} className="border rounded-lg p-4 shadow-md">
+            <img
+              src={item.imageUrl}
+              alt={item.description}
+              className="w-full h-48 object-cover rounded-t-lg"
             />
-            {previewImageUrl && (
-              <div className="mt-2">
-                <img
-                  src={previewImageUrl}
-                  alt="Image preview" className="h-32 w-32 object-cover rounded" />
-              </div>
-            )}
+            <p className="mt-2 text-gray-700">{item.description}</p>
+            <button
+              onClick={() => handleDeleteImage(item.id)}
+              className="mt-2 bg-[#D82148] hover:bg-[#F15353] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Delete
+            </button>
           </div>
-          <div className="mb-2">
-            <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
-              Description:
-            </label>
-            <input
-              type="text"
-              id="description"
-              value={newDescription}
-              onChange={handleDescriptionChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="bg-[#192241] hover:bg-[#374676] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50 mt-2"
-          >
-            Add Image
-          </button>
-        </form>
-
-        {error && <div className="text-red-500 mb-4">{error}</div>}
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 relative">
-            {galleryItems.map((item) => (
-              <div key={item.id} className="border rounded-lg p-4 shadow-md">
-                <img
-                  src={item.imageUrl}
-                  alt={item.description}
-                  className="w-full h-48 object-cover rounded-t-lg"
-                />
-                <p className="mt-2 text-gray-700">{item.description}</p>
-                <button
-                  onClick={() => handleDeleteImage(item.id)}
-                  className="mt-2 bg-[#D82148] hover:bg-[#F15353] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div>
+        ))}
       </div>
-    );
-  };
+    </div>
+  );
+};
 
-  export default GalleryManagement;
+export default GalleryManagement;
