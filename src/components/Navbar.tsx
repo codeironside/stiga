@@ -7,7 +7,7 @@ const getToken = () => localStorage.getItem('token');
 const clearToken = () => localStorage.removeItem('token');
 
 const Navbar = () => {
-  const location = useLocation(); // Added to fix undefined location error
+  const location = useLocation();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -36,7 +36,6 @@ const Navbar = () => {
     setIsLoggedIn(!!getToken());
   }, [location]);
 
-
   // Close mobile menu when route changes
   useEffect(() => {
     setIsMenuOpen(false);
@@ -53,7 +52,6 @@ const Navbar = () => {
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];
-
 
   const isActive = (path: string) => {
     if (path === '/' && location.pathname === '/') return true;
