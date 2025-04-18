@@ -83,42 +83,36 @@ const AdminDashboardTabs: React.FC = () => {
         </select>
       </div>
       <div className="hidden sm:block mt-4">
-        <nav className="flex justify-center rounded-lg overflow-hidden" aria-label="Tabs">
+        <nav className="flex justify-center space-x-4" aria-label="Tabs">
           <button
             onClick={() => setActiveTab('blog')}
-            className={`px-6 py-3 font-medium text-sm rounded-l-lg ${
+            className={`px-6 py-3 font-semibold text-sm rounded-lg shadow-md transition-colors duration-200 ${
               activeTab === 'blog'
-                ? 'bg-stiga-orange text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            } focus:outline-none focus:ring-2 focus:ring-stiga-orange focus:z-10`}
+                ? 'bg-stiga-orange text-white hover:bg-stiga-orange-dark'
+                : 'bg-white text-gray-700 hover:bg-gray-100'
+            } focus:outline-none focus:ring-2 focus:ring-stiga-orange`}
             style={{ fontFamily: 'Montserrat, sans-serif' }}
           >
             Blog
           </button>
           <button
             onClick={() => setActiveTab('gallery')}
-            className={`px-6 py-3 font-medium text-sm  ${
+            className={`px-6 py-3 font-semibold text-sm rounded-lg shadow-md transition-colors duration-200 ${
               activeTab === 'gallery'
-                ? 'bg-stiga-orange text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            } focus:outline-none focus:ring-2 focus:ring-stiga-orange focus:z-10`}
+                ? 'bg-stiga-orange text-white hover:bg-stiga-orange-dark'
+                : 'bg-white text-gray-700 hover:bg-gray-100'
+            } focus:outline-none focus:ring-2 focus:ring-stiga-orange`}
             style={{ fontFamily: 'Montserrat, sans-serif' }}
           >
             Gallery
           </button>
           <button
             onClick={() => setActiveTab('users')}
-            className={`px-6 py-3 font-medium text-sm rounded-r-lg ${
+            className={`px-6 py-3 font-semibold text-sm rounded-lg shadow-md transition-colors duration-200 ${
               activeTab === 'users'
-                ? 'bg-stiga-orange text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            } focus:outline-none focus:ring-2 focus:ring-stiga-orange focus:z-10`}
-            style={{ fontFamily: 'Montserrat, sans-serif' }}
-          >
-            Users
-          </button>
-        </nav>
-        <div className="mt-6 p-6 bg-gray-50 rounded-lg">
+                ? 'bg-stiga-orange text-white hover:bg-stiga-orange-dark'
+                : 'bg-white text-gray-700 hover:bg-gray-100'
+            } focus:outline-none focus:ring-2 focus:ring-stiga-orange`}            style={{ fontFamily: 'Montserrat, sans-serif' }}>            Users          </button>        </nav>        <div className="mt-6 p-6 bg-gray-50 rounded-lg">
           {activeTab === 'blog' && <BlogManagement />}
           {activeTab === 'gallery' && <GalleryManagement />}
           {activeTab === 'users' && <UserManagement />}

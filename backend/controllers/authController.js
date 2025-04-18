@@ -44,9 +44,7 @@ const getAuthenticatedUser = async (req, res) => {
         return res.status(401).json({ message: 'Token missing' });
     }
 
-    const trimmedToken = token.trim();
 
-    const trimmedToken = token.trim();
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.userId;
