@@ -1,6 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import BlogManagement from "./BlogManagement";
+import GalleryManagement from "./GalleryManagement";
+import UserManagement from "./UserManagement";
 
 interface TabPanelProps {
   children: React.ReactNode;
