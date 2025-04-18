@@ -20,6 +20,8 @@ const BlogManagement: React.FC = () => {
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 6;
   const [showAddForm, setShowAddForm] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const getBlogPosts = async () => {
@@ -52,10 +54,9 @@ const BlogManagement: React.FC = () => {
     title: '',
     content: '',
     author: '',
-    imageUrl: '',
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setNewPost({ ...newPost, [name]: value });
   };
@@ -63,11 +64,19 @@ const BlogManagement: React.FC = () => {
   const handleAddSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const addedPost = await createBlogPost(
-        newPost.title,
-        newPost.content,
-        newPost.author, newPost.imageUrl);
-      setBlogPosts([...blogPosts, addedPost]);
+      const formData = new FormData();
+      formData.append('title', newPost.title);
+      formData.append('content', newPost.content);
+      formData.append('author', newPost.author);
+      if (imageFile) {
+        formData.append('image', imageFile);
+      }
+
+      await createBlogPost(formData);
+
+      // Refresh blog posts after adding
+      const result = await getAllBlogPosts(currentPage, itemsPerPage);
+      setBlogPosts(result.data);
       setNewPost({ title: '', content: '', author: '' });
       setShowAddForm(false);
     } catch (err: any) {
@@ -77,8 +86,31 @@ const BlogManagement: React.FC = () => {
 
   const toggleAddForm = () => {
     setShowAddForm(!showAddForm);
-    if (!showAddForm) {
-      setNewPost({ title: '', content: '', author: '' });
+    if (showAddForm) {
+      setNewPost({ title: '', content: '', author: '' })
+      setImageFile(null);
+    }
+  }
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setError(null); // Clear any previous errors
+    const file = event.target.files && event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      setImageFile(file);
+      setPreviewImageUrl(URL.createObjectURL(file));
+    } else if (file) {
+      setError('Please select a valid image file.');
+      setImageFile(null);
+      setPreviewImageUrl(null);
+      if (event.target) {
+        event.target.value = '';
+      }
+    } else {
+      setImageFile(null);
+      setPreviewImageUrl(null);
+      if (event.target) {
+        event.target.value = '';
+      }
     }
   }
 
@@ -95,7 +127,7 @@ const BlogManagement: React.FC = () => {
   }
 
   if (error) {
-    return <div className="text-red-500">Error: {error}</div>;
+    return <div className="text-red-500 mt-4">Error: {error}</div>;
   }
 
   return (
@@ -172,22 +204,30 @@ const BlogManagement: React.FC = () => {
             />
           </div>
 
-          <div className="mb-2">
-            <label htmlFor="imageUrl" className="block text-gray-700 text-sm font-bold mb-1">
-              Image URL:
+          <div className="mb-4">
+            <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-2">
+              Image:
             </label>
-
-
-            <input
-              type="text"
-              id="imageUrl"
-              name="imageUrl"
-              value={newPost.imageUrl}
-              onChange={handleInputChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            />
+            <div className="relative">
+              <input
+                type="file"
+                id="image"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
           </div>
+
+          {previewImageUrl && (
+            <div className="mb-2">
+              <img
+                src={URL.createObjectURL(imageFile)}
+                alt="Image preview"
+                className="max-h-48 rounded-lg"
+              />
+            </div>
+          )}
 
 
           <button

@@ -17,6 +17,7 @@ const GalleryManagement: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [limit] = useState<number>(10); // You can adjust the limit as needed
   const [totalItems, setTotalItems] = useState<number>(0);
+  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
     fetchGalleryItems();
@@ -39,9 +40,20 @@ const GalleryManagement: React.FC = () => {
     }
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setNewImage(event.target.files[0]);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(null);
+    setPreviewImageUrl(null);
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      if (file.type.startsWith('image/')) {
+        setNewImage(file);
+        setPreviewImageUrl(URL.createObjectURL(file));
+      } else {
+        setError('Please select a valid image file.');
+        setNewImage(null);
+        setPreviewImageUrl(null);
+        e.target.value = ''; // Reset the input
+      }
     }
   };
 
@@ -69,6 +81,7 @@ const GalleryManagement: React.FC = () => {
       fetchGalleryItems();
       setNewImage(null);
       setNewDescription('');
+      setPreviewImageUrl(null);
     } catch (err) {
       setError('Failed to add gallery item.');
       // In a real app, you might want to log this error to a service
@@ -130,8 +143,16 @@ const GalleryManagement: React.FC = () => {
               type="file"
               id="image"
               onChange={handleImageChange}
+              accept="image/*"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
+            {previewImageUrl && (
+              <div className="mt-2">
+                <img
+                  src={previewImageUrl}
+                  alt="Image preview" className="h-32 w-32 object-cover rounded" />
+              </div>
+            )}
           </div>
           <div className="mb-2">
             <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">

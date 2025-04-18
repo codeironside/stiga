@@ -14,9 +14,20 @@ export const getAllBlogPosts = async (page: number = 1, limit: number = 5) => {
   }
 };
 
-export const createBlogPost = async (blogPostData: any) => {
+export const createBlogPost = async (formData: FormData) => {
   try {
-    const response = await axios.post(API_URL, blogPostData);
+    const response = await axios.post(API_URL, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;\n  } catch (error) {\n    console.error('Error creating blog post:', error);\n    throw error;\n  }\n};\n\nexport const updateBlogPost = async (blogPostId: string, formData: FormData) => {\n  try {\n    const response = await axios.put(`${API_URL}/${blogPostId}`, formData, {\n      headers: {\n        'Content-Type': 'multipart/form-data',\n      },\n    });\n    return response.data;\n  } catch (error) {\n    console.error('Error updating blog post:', error);\n    throw error;\n  }\n};\n
+  try {
+    const response = await axios.post(API_URL, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Error creating blog post:', error);
@@ -40,16 +51,6 @@ export const getBlogPostById = async (blogPostId: string) => {
     return response.data;
   } catch (error) {
     console.error('Error getting blog post by ID:', error);
-    throw error;
-  }
-};
-
-export const updateBlogPost = async (blogPostId: string, blogPostData: any) => {
-  try {
-    const response = await axios.put(`${API_URL}/${blogPostId}`, blogPostData);
-    return response.data;
-  } catch (error) {
-    console.error('Error updating blog post:', error);
     throw error;
   }
 };

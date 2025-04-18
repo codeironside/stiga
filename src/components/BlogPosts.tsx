@@ -78,7 +78,7 @@ const BlogPosts: React.FC = () => {
               <div className="flex-shrink-0">
                 <img
                   className="h-48 w-full object-cover"
-                  src={post.imageUrl}
+                  src={post.imageUrl || 'https://via.placeholder.com/800x600?text=No+Image'}
                   alt={post.title}
                 />
               </div>

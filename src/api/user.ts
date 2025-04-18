@@ -19,6 +19,24 @@ export const getAllUsers = async (token: string, page: number = 1, limit: number
   }
 };
 
+export const getUser = async (token: string) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      // Token is invalid or expired
+      return null;
+    }
+    console.error('Error fetching user:', error);
+    throw error;
+  }
+};
+
 export const createUser = async (userData: any, token: string) => {
   try {
     const response = await axios.post(`${BASE_URL}/users`, userData, {
