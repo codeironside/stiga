@@ -17,7 +17,7 @@ const ClientLogoCarousel = () => {
       setLoading(true);
       setError(null);
       try {
-        const { items } = await getAllGalleryItems({ page: 1, limit: 10 }); // Fetch first 10 items
+        const { items } = await getAllGalleryItems(1, 10); // Fetch first 10 items
         setGalleryItems(items);
       } catch (error) {
         setError(error);

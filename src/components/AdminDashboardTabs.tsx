@@ -1,5 +1,10 @@
 
-import React from 'react';
+--- a/src/components/AdminDashboardTabs.tsx
++++ b/src/components/AdminDashboardTabs.tsx
+import React, { useState } from 'react';
+import BlogManagement from './BlogManagement';
+import GalleryManagement from './GalleryManagement';
+import UserManagement from './UserManagement';
 
 interface PaginationProps {
   currentPage: number;
@@ -58,4 +63,68 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
   );
 };
 
-export default Pagination;
+const AdminDashboardTabs: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('blog');
+
+  return (
+    <div>
+      <div className="sm:hidden">
+        <label htmlFor="tabs" className="sr-only">
+          Select a tab
+        </label>
+        <select
+          id="tabs"
+          name="tabs"
+          className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+          value={activeTab}
+          onChange={(e) => setActiveTab(e.target.value)}
+        >
+          <option value="blog">Blog</option>
+          <option value="gallery">Gallery</option>
+          <option value="users">Users</option>
+        </select>
+      </div>
+      <div className="hidden sm:block">
+        <div className="border-b border-gray-200">
+          <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+            <button
+              onClick={() => setActiveTab('blog')}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'blog'
+                  ? 'border-stiga-orange text-stiga-orange'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              Blog
+            </button>
+            <button
+              onClick={() => setActiveTab('gallery')}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'gallery'
+                  ? 'border-stiga-orange text-stiga-orange'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              Gallery
+            </button>
+            <button
+              onClick={() => setActiveTab('users')}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'users'
+                  ? 'border-stiga-orange text-stiga-orange'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              Users
+            </button>
+          </nav>
+        </div>
+      </div>
+      {activeTab === 'blog' && <div className="p-4"><BlogManagement /></div>}
+      {activeTab === 'gallery' && <div className="p-4"><GalleryManagement /></div>}
+      {activeTab === 'users' && <div className="p-4"><UserManagement /></div>}
+    </div>
+  );
+};
+
+export default AdminDashboardTabs;

@@ -6,8 +6,8 @@ const BASE_URL = 'http://localhost:3001/api/gallery';
 // export const getAllGalleryItems = async () => {
 export const getAllGalleryItems = async (page: number = 1, limit: number = 10) => {
   try {
-    const response = await axios.get(`${BASE_URL}?page=${page}&limit=${limit}`);
-    return response.data; // Assuming the backend returns { items: [], totalItems: number }
+    const response = await axios.get(`${BASE_URL}?page=${page}&limit=${limit}`)
+    return response.data // Assuming the backend returns { items: [], totalItems: number }
   } catch (error) {
     console.error('Error getting gallery items:', error);
     throw error;

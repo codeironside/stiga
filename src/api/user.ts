@@ -26,16 +26,17 @@ export const getUser = async (token: string) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
-  } catch (error) {
-    if (error.response && error.response.status === 401) {
-      // Token is invalid or expired
-      return null;
+        return response.data;
+    } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+            // Token is invalid or expired
+            return null;
+        }
+        console.error('Error fetching user:', error);
+        throw error;
     }
-    console.error('Error fetching user:', error);
-    throw error;
-  }
 };
+
 
 export const createUser = async (userData: any, token: string) => {
   try {

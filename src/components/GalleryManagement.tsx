@@ -14,8 +14,9 @@ const GalleryManagement: React.FC = () => {
   const [newDescription, setNewDescription] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState<number>(1);
-  const [limit] = useState<number>(10); // You can adjust the limit as needed
+  const itemsPerPage = 8;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
 
@@ -25,16 +26,13 @@ const GalleryManagement: React.FC = () => {
 
   const fetchGalleryItems = async () => {
     setLoading(true);
-    setError(null);
     try {
-      const { items, totalItems: total } = await getGalleryItems(page, limit);
-      setGalleryItems(items);
-      setTotalItems(total);
-    } catch (err) {
-      setError('Failed to fetch gallery items.');
-      // In a real app, you might want to log this error to a service
-      // for debugging purposes.  For now, we'll just console.log it.
-      console.error(err);
+      const result = await getGalleryItems(currentPage, itemsPerPage);
+      setGalleryItems(result.items);
+      setTotalItems(result.totalItems);
+      setTotalPages(Math.ceil(result.totalItems / itemsPerPage));
+    } catch (err: any) {
+      setError(err.message || 'Failed to fetch gallery items.');
     } finally {
       setLoading(false);
     }
@@ -194,23 +192,6 @@ const GalleryManagement: React.FC = () => {
                 </button>
               </div>
             ))}
-          </div>
-          <div className="flex justify-center mt-4">
-            {Array.from({ length: Math.ceil(totalItems / limit) }, (_, i) => i + 1).map(
-              (num) => (
-                <button
-                  key={num}
-                  onClick={() => setPage(num)}
-                  className={`mx-1 px-3 py-1 rounded ${
-                    page === num
-                      ? 'bg-[#192241] text-white'
-                      : 'bg-gray-200 hover:bg-gray-300'
-                  }`}
-                >
-                  {num}
-                </button>
-              )
-            )}
           </div>
       </div>
     );

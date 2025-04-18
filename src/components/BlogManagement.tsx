@@ -27,7 +27,7 @@ const BlogManagement: React.FC = () => {
     const getBlogPosts = async () => {
       try {
         setLoading(true);
-        const result = await getAllBlogPosts(currentPage, itemsPerPage);
+        const result = await getAllBlogPosts(currentPage, itemsPerPage)
         setBlogPosts(result.data);
         setTotalItems(result.totalItems);
         setTotalPages(Math.ceil(result.totalItems / itemsPerPage));
@@ -44,7 +44,7 @@ const BlogManagement: React.FC = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteBlogPost(id);
-      setBlogPosts(blogPosts.filter((post) => post._id !== id))
+      setBlogPosts(blogPosts.filter((post) => post._id !== id));
     } catch (err: any) {
       setError(err.message);
     }
@@ -75,7 +75,7 @@ const BlogManagement: React.FC = () => {
       await createBlogPost(formData);
 
       // Refresh blog posts after adding
-      const result = await getAllBlogPosts(currentPage, itemsPerPage);
+      const result = await getAllBlogPosts(currentPage, itemsPerPage)
       setBlogPosts(result.data);
       setNewPost({ title: '', content: '', author: '' });
       setShowAddForm(false);
