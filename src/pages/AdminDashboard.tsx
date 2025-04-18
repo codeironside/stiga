@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BlogManagement from "./BlogManagement";
-import GalleryManagement from "./GalleryManagement";
-import UserManagement from "./UserManagement";
+import BlogManagement from "../components/BlogManagement";
+import GalleryManagement from "../components/GalleryManagement";
+import UserManagement from "../components/UserManagement";
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -22,8 +22,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`admin-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <div>{children}</div>
+      {value === index && (        
       )}
     </div>
   );
@@ -36,32 +35,6 @@ function a11yProps(index: number) {
   };
 }
 
-function BlogManagement() {
-  return (
-    <div>
-      <h2>Blog Management</h2>
-      {/* Add blog management content here */}
-    </div>
-  );
-}
-
-function GalleryManagement() {
-  return (
-    <div>
-      <h2>Gallery Management</h2>
-      {/* Add gallery management content here */}
-    </div>
-  );
-}
-
-function UserManagement() {
-  return (
-    <div>
-      <h2>User Management</h2>
-      {/* Add user management content here */}
-    </div>
-  );
-}
 
 import { getUser } from '../api/user'; // Assuming you have a getUser function
 
@@ -115,10 +88,10 @@ const AdminDashboard: React.FC = () => {
         <button {...a11yProps(2)} onClick={(event) => handleChange(event, 2)}>User Management</button>
       </div>
       <TabPanel value={value} index={0}>
-        <BlogManagement />
+        <BlogManagement/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <GalleryManagement />
+        <GalleryManagement/>
       </TabPanel>
       <TabPanel value={value} index={2}>
         <UserManagement  />
