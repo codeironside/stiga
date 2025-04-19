@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import ImageUpload from './ImageUpload';
 
 interface BlogPost {
   _id: string;
@@ -20,7 +21,7 @@ const BlogManagement: React.FC = () => {
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 6;
   const [showAddForm, setShowAddForm] = useState(false);
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -68,15 +69,17 @@ const BlogManagement: React.FC = () => {
       formData.append('title', newPost.title);
       formData.append('content', newPost.content);
       formData.append('author', newPost.author);
-      if (imageFile) {
-        formData.append('image', imageFile);
-      }
+      formData.append('imageUrl', imageUrl || "");
 
-      await createBlogPost(formData);
+      await createBlogPost({
+        ...newPost,
+        imageUrl: imageUrl || "",
+      });
 
       // Refresh blog posts after adding
       const result = await getAllBlogPosts(currentPage, itemsPerPage)
       setBlogPosts(result.data);
+      setImageUrl(null);
       setNewPost({ title: '', content: '', author: '' });
       setShowAddForm(false);
     } catch (err: any) {
@@ -86,8 +89,12 @@ const BlogManagement: React.FC = () => {
 
   const toggleAddForm = () => {
     setShowAddForm(!showAddForm);
+    setImageUrl(null);
     if (showAddForm) {
       setNewPost({ title: '', content: '', author: '' })
+    }
+  }
+  const handleImageUpload = (url: string) => {
       setImageFile(null);
     }
   }
@@ -203,19 +210,17 @@ const BlogManagement: React.FC = () => {
               required
             />
           </div>
+          <div className="mb-2">
+              <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-1">
+                Image:
+              </label>
+              <ImageUpload onImageUpload={setImageUrl} />
+              {imageUrl && (
+                <div className="mt-2">
+                  <img src={imageUrl} alt="Uploaded" className="max-h-40" />
+                </div>
+              )}
 
-          <div className="mb-4">
-            <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-2">
-              Image:
-            </label>
-            <div className="relative">
-              <input
-                type="file"
-                id="image"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
             </div>
           </div>
 
@@ -233,6 +238,7 @@ const BlogManagement: React.FC = () => {
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            disabled={!imageUrl}
           >
             Add Post
 

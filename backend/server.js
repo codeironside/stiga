@@ -35,6 +35,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/blog', blogPostRoutes);
 app.use('/api/gallery', galleryItemRoutes);
+const imageUploadRoutes = require('./routes/imageUploadRoutes');
+app.use(imageUploadRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

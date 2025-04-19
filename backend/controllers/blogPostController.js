@@ -1,53 +1,23 @@
 const BlogPost = require('../models/BlogPost');
-const multer = require('multer');
-const path = require('path');
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'public/uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image/')) {
-    cb(null, true);
-  } else {
-    cb(new Error('Only image files are allowed!'), false);
-  }
-};
-
-const upload = multer({ storage: storage, fileFilter: fileFilter });
-
-
-
-// Create a new blog post
 const createBlogPost = async (req, res) => {
   try {
-    upload.single('image')(req, res, async (err) => {
-      if (err) {
-        console.error("Multer error:", err);
-        return res.status(400).json({ message: err.message });
-      }
+    const { title, content, author, imageUrl } = req.body;
 
-      const { title, content, author } = req.body;
-      let imageUrl = "";
+    const newBlogPost = new BlogPost({
+      title,
+      content,
+      author,
+      imageUrl: imageUrl || "",
+    });
 
-      if (req.file) {
-        imageUrl = `/uploads/${req.file.filename}`;
-      }
-
-      const newBlogPost = new BlogPost({
-        title,
-        content,
-        author,
-        imageUrl,
-      });
+    try {
       const savedBlogPost = await newBlogPost.save();
       res.status(201).json(savedBlogPost);
-    });
+    } catch (saveError) {
+      console.error("Error saving blog post:", saveError);
+      res.status(500).json({ message: saveError.message });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -72,57 +42,35 @@ const getAllBlogPosts = async (req, res) => {
   }
 };
 
-// Get a specific blog post by ID
 const getBlogPostById = async (req, res) => {
   try {
     const blogPost = await BlogPost.findById(req.params.id);
     if (!blogPost) {
-      return res.status(404).json('Blog post not found');
+      return res.status(404).json({ message: 'Blog post not found' });
     }
     res.status(200).json(blogPost);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-
-// Update a blog post
 const updateBlogPost = async (req, res) => {
   try {
-    upload.single('image')(req, res, async (err) => {
-      if (err) {
-        console.error("Multer error:", err);
-        return res.status(400).json({ message: err.message });
-      }
+    const { title, content, author, imageUrl } = req.body;
 
-      const { title, content, author } = req.body;
-      let imageUrl;
+    const updatedBlogPost = await BlogPost.findByIdAndUpdate(
+      req.params.id,
+      { title, content, author, imageUrl: imageUrl || "" },
+      { new: true, runValidators: true }
+    );
 
-      if (req.file) {
-        imageUrl = `/uploads/${req.file.filename}`;
-      } else {
-        const existingPost = await BlogPost.findById(req.params.id);
-        imageUrl = existingPost.imageUrl;
-      }
+    if (!updatedBlogPost) {
+      return res.status(404).json({ message: 'Blog post not found' });
+    }
 
-      const updatedBlogPost = await BlogPost.findByIdAndUpdate(
-        req.params.id,
-        {
-          title,
-          content,
-          author,
-          imageUrl,
-        },
-        { new: true, runValidators: true }
-      );
-      if (!updatedBlogPost) {
-        return res.status(404).json({ message: 'Blog post not found' });
-      }
-      res.status(200).json(updatedBlogPost);
-    });
-    res.status(500).json(err);
-  }catch(err) {
-    console.error(err);
-    res.status(500).json(err);
+    res.status(200).json(updatedBlogPost);
+  } catch (error) {
+    console.error("Error updating blog post:", error);
+    res.status(500).json({ message: error.message });
   }
 };
 

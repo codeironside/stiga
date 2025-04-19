@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { createBlogPost } from '../api/blog';
+import ImageUpload from '../components/ImageUpload';
 
 const AddBlogPost: React.FC = () => {
   const [title, setTitle] = useState('');
-  const [excerpt, setExcerpt] = useState('');
-  const [date, setDate] = useState('');
-  const [category, setCategory] = useState('');
-  const [image, setImage] = useState('');
+  const [content, setContent] = useState('');
+  const [author, setAuthor] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
