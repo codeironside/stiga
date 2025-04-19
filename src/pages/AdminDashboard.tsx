@@ -150,33 +150,30 @@ const AdminDashboard: React.FC = () => {
           <nav className="flex justify-center space-x-4" aria-label="Tabs">
             <button
               onClick={() => setActiveTab("blog")}
-              className={`px-6 py-3 font-semibold text-sm rounded-lg shadow-md transition-colors duration-200 ${
-                activeTab === "blog"
+              className={`px-6 py-3 font-semibold text-sm rounded-lg shadow-md transition-colors duration-200 ${activeTab === "blog"
                   ? "bg-stiga-orange text-white hover:bg-stiga-orange-dark"
                   : "bg-white text-gray-700 hover:bg-gray-100"
-              } focus:outline-none focus:ring-2 focus:ring-stiga-orange`}
+                } focus:outline-none focus:ring-2 focus:ring-stiga-orange`}
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
               Blog
             </button>
             <button
               onClick={() => setActiveTab("gallery")}
-              className={`px-6 py-3 font-semibold text-sm rounded-lg shadow-md transition-colors duration-200 ${
-                activeTab === "gallery"
+              className={`px-6 py-3 font-semibold text-sm rounded-lg shadow-md transition-colors duration-200 ${activeTab === "gallery"
                   ? "bg-stiga-orange text-white hover:bg-stiga-orange-dark"
                   : "bg-white text-gray-700 hover:bg-gray-100"
-              } focus:outline-none focus:ring-2 focus:ring-stiga-orange`}
+                } focus:outline-none focus:ring-2 focus:ring-stiga-orange`}
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
               Gallery
             </button>
             <button
               onClick={() => setActiveTab("users")}
-              className={`px-6 py-3 font-semibold text-sm rounded-lg shadow-md transition-colors duration-200 ${
-                activeTab === "users"
+              className={`px-6 py-3 font-semibold text-sm rounded-lg shadow-md transition-colors duration-200 ${activeTab === "users"
                   ? "bg-stiga-orange text-white hover:bg-stiga-orange-dark"
                   : "bg-white text-gray-700 hover:bg-gray-100"
-              } focus:outline-none focus:ring-2 focus:ring-stiga-orange`}
+                } focus:outline-none focus:ring-2 focus:ring-stiga-orange`}
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
               Users
@@ -193,17 +190,18 @@ const AdminDashboard: React.FC = () => {
             {(activeTab === "blog" ||
               activeTab === "gallery" ||
               activeTab === "users") && (
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
-            )}
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              )}
           </div>
         </div>
       </div>
     </div>
   );
 };
+
 
 export default AdminDashboard;
