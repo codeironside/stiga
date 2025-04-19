@@ -93,6 +93,21 @@ const AdminDashboardTabs: React.FC = () => {
             } focus:outline-none focus:ring-2 focus:ring-stiga-orange`}
             style={{ fontFamily: 'Montserrat, sans-serif' }}
           >
+            Users
+          </button>
+        </nav>
+        <div className="mt-6 p-6 bg-gray-50 rounded-lg">
+          {activeTab === 'blog' && <BlogManagement />}
+          {activeTab === 'gallery' && <GalleryManagement />}
+          {activeTab === 'users' && <UserManagement />}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AdminDashboardTabs;
+          >
             Blog
           </button>
           <button
