@@ -25,16 +25,22 @@ const upload = multer({
 // Add a new gallery item
 const addGalleryItem = async (req, res) => {
   try {
+    console.log("Request body:", req.file);
     upload.single('image')(req, res, async (err) => {
-      if (err) return res.status(400).json({ message: err.message });
+      
+      if (err) {
+        console.log(`error uploading ${res.toJson()}`);
+        return res.status(400).json({ message: err.message })
+      };
       if (!req.file) return res.status(400).json({ message: 'No image uploaded' });
       const { description } = req.body;
-      const imageUrl = `/uploads/${req.file.filename}`;
+      const imageUrl = `http://localhost:5000/uploads/${req.file.filename}`;
       const newGalleryItem = new GalleryItem({ imageUrl, description });
       const savedGalleryItem = await newGalleryItem.save();
       res.status(201).json(savedGalleryItem);
     });
   } catch (error) {
+    console.log("Error in addGalleryItem:", error);
     res.status(500).json({ message: error.message });
   }
 };

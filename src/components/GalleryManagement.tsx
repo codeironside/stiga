@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { getAllGalleryItems, addGalleryItem, deleteGalleryItem } from '../api/gallery';
+import React, { useState, useEffect } from "react";
+import {
+  getAllGalleryItems,
+  createGalleryItem,
+  deleteGalleryItem,
+} from "../api/gallery";
 
 interface GalleryItem {
   id: string;
@@ -7,10 +11,15 @@ interface GalleryItem {
   description: string;
 }
 
+interface GalleryResponse {
+  items: GalleryItem[];
+  totalItems: number;
+}
+
 const GalleryManagement: React.FC = () => {
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
   const [newImage, setNewImage] = useState<File | null>(null);
-  const [newDescription, setNewDescription] = useState<string>('');
+  const [newDescription, setNewDescription] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const itemsPerPage = 8;
@@ -25,13 +34,39 @@ const GalleryManagement: React.FC = () => {
 
   const fetchGalleryItems = async () => {
     setLoading(true);
+    setError(null);
+
     try {
       const result = await getAllGalleryItems(currentPage, itemsPerPage);
-      setGalleryItems(result.items);
-      setTotalItems(result.totalItems);
-      setTotalPages(Math.ceil(result.totalItems / itemsPerPage));
+
+      // Check the structure of the API response and handle it accordingly
+      if (result && typeof result === "object") {
+        if (Array.isArray(result.galleryItems)) {
+          // If the API returns an array directly
+          setGalleryItems(result.galleryItems);
+          setTotalItems(result.galleryItems.length);
+          setTotalPages(1);
+        } else if (result.galleryItems && Array.isArray(result.galleryItems)) {
+          // If the API returns an object with items array
+          setGalleryItems(result.items);
+          setTotalItems(result.totalItems || result.items.length);
+          setTotalPages(
+            Math.ceil((result.totalItems || result.items.length) / itemsPerPage)
+          );
+        } else {
+          console.error("Unexpected API response format:", result.galleryItems);
+          setError("Unexpected data format received from server.");
+          setGalleryItems([]);
+        }
+      } else {
+        console.error("Invalid API response:", result);
+        setError("Invalid response received from server.");
+        setGalleryItems([]);
+      }
     } catch (err: any) {
-      setError(err.message || 'Failed to fetch gallery items.');
+      console.error("Error fetching gallery items:", err);
+      setError(err.message || "Failed to fetch gallery items.");
+      setGalleryItems([]);
     } finally {
       setLoading(false);
     }
@@ -42,19 +77,21 @@ const GalleryManagement: React.FC = () => {
     setPreviewImageUrl(null);
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      if (file.type.startsWith('image/')) {
+      if (file.type.startsWith("image/")) {
         setNewImage(file);
         setPreviewImageUrl(URL.createObjectURL(file));
       } else {
-        setError('Please select a valid image file.');
+        setError("Please select a valid image file.");
         setNewImage(null);
         setPreviewImageUrl(null);
-        e.target.value = ''; // Reset the input
+        e.target.value = ""; // Reset the input
       }
     }
   };
 
-  const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setNewDescription(event.target.value);
   };
 
@@ -64,24 +101,28 @@ const GalleryManagement: React.FC = () => {
     setError(null);
 
     if (!newImage) {
-      setError('Please select an image.');
+      setError("Please select an image.");
       setLoading(false);
       return;
     }
 
     try {
       const formData = new FormData();
-      formData.append('image', newImage);
-      formData.append('description', newDescription);
+      formData.append("image", newImage);
+      formData.append("description", newDescription);
 
-      await addGalleryItem(formData);
+      await createGalleryItem(formData);
       fetchGalleryItems();
       setNewImage(null);
-      setNewDescription('');
+      setNewDescription("");
       setPreviewImageUrl(null);
-    } catch (err) {
-      setError('Failed to add gallery item.');
-      console.error(err);
+
+      // Reset file input
+      const fileInput = document.getElementById("image") as HTMLInputElement;
+      if (fileInput) fileInput.value = "";
+    } catch (err: any) {
+      console.error("Error adding gallery item:", err);
+      setError(err.message || "Failed to add gallery item.");
     } finally {
       setLoading(false);
     }
@@ -93,11 +134,17 @@ const GalleryManagement: React.FC = () => {
     try {
       await deleteGalleryItem(id);
       fetchGalleryItems();
-    } catch (err) {
-      setError('Failed to delete gallery item.');
-      console.error(err);
+    } catch (err: any) {
+      console.error("Error deleting gallery item:", err);
+      setError(err.message || "Failed to delete gallery item.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
     }
   };
 
@@ -124,11 +171,23 @@ const GalleryManagement: React.FC = () => {
           0% { -webkit-transform: rotate(0deg); }
           100% { -webkit-transform: rotate(360deg); }
         }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
       `}</style>
       <h2 className="text-2xl font-bold mb-4">Gallery Management</h2>
-      <form onSubmit={handleAddGalleryItem} className="mb-4" encType="multipart/form-data">
+      <form
+        onSubmit={handleAddGalleryItem}
+        className="mb-4"
+        encType="multipart/form-data"
+      >
         <div className="mb-2">
-          <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-2">
+          <label
+            htmlFor="image"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
             Image:
           </label>
           <input
@@ -149,7 +208,10 @@ const GalleryManagement: React.FC = () => {
           )}
         </div>
         <div className="mb-2">
-          <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
+          <label
+            htmlFor="description"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
             Description:
           </label>
           <input
@@ -171,24 +233,104 @@ const GalleryManagement: React.FC = () => {
 
       {error && <div className="text-red-500 mb-4">{error}</div>}
 
+      {/* Display gallery items with proper null check */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 relative">
-        {galleryItems.map((item) => (
-          <div key={item.id} className="border rounded-lg p-4 shadow-md">
-            <img
-              src={item.imageUrl}
-              alt={item.description}
-              className="w-full h-48 object-cover rounded-t-lg"
-            />
-            <p className="mt-2 text-gray-700">{item.description}</p>
-            <button
-              onClick={() => handleDeleteImage(item.id)}
-              className="mt-2 bg-[#D82148] hover:bg-[#F15353] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              Delete
-            </button>
+        {galleryItems && galleryItems.length > 0 ? (
+          galleryItems.map((item) => (
+            <div key={item.id} className="border rounded-lg p-4 shadow-md">
+              <img
+                src={item.imageUrl}
+                alt={item.description}
+                className="w-full h-48 object-cover rounded-t-lg"
+              />
+              <p className="mt-2 text-gray-700">{item.description}</p>
+              <button
+                onClick={() => handleDeleteImage(item.id)}
+                className="mt-2 bg-[#D82148] hover:bg-[#F15353] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                Delete
+              </button>
+            </div>
+          ))
+        ) : (
+          <div className="col-span-full text-center py-8 text-gray-500">
+            {loading ? "Loading gallery items..." : "No gallery items found."}
           </div>
-        ))}
+        )}
       </div>
+
+      {/* Pagination controls */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-6">
+          <nav
+            className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+            aria-label="Pagination"
+          >
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 ${
+                currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={currentPage === 1}
+            >
+              <span className="sr-only">Previous</span>
+              <svg
+                className="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                aria-current={currentPage === index + 1 ? "page" : undefined}
+                className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                  currentPage === index + 1
+                    ? "bg-stiga-orange text-white"
+                    : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 ${
+                currentPage === totalPages
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+              disabled={currentPage === totalPages}
+            >
+              <span className="sr-only">Next</span>
+              <svg
+                className="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </nav>
+        </div>
+      )}
     </div>
   );
 };
