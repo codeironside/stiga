@@ -104,7 +104,6 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index }) => {
       hidden={value !== index}
       id={`admin-tabpanel-${index}`}
       aria-labelledby={`admin-tab-${index}`}
-      {...other}
     >
       {value === index && (
       )}
