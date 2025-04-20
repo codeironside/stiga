@@ -1,21 +1,59 @@
 const GalleryItem = require('../models/GalleryItem');
 
-// Add a new gallery item
+
+
 const addGalleryItem = async (req, res) => {
-    try {
-        const { description, imageUrl } = req.body;
+  try {
+    const { imageUrl, description } = req.body;
 
-        if (!imageUrl) {
-            return res.status(400).json({ message: 'Image is required' });
-        }
-
-        const newGalleryItem = new GalleryItem({ imageUrl, description });
-        const savedGalleryItem = await newGalleryItem.save();
-        res.status(201).json(savedGalleryItem);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    // Validate input
+    if (!imageUrl) {
+      return res.status(400).json({
+        success: false,
+        message: 'Image URL is required'
+      });
     }
 
+    // Check for existing image URL
+    const existingItem = await GalleryItem.findOne({ imageUrl });
+
+    if (existingItem) {
+      return res.status(409).json({
+        success: false,
+        message: 'This image already exists in the gallery'
+      });
+    }
+
+    // Create new gallery item
+    const newItem = await GalleryItem.create({
+      imageUrl: imageUrl.trim(),
+      description: description?.trim() || ''
+    });
+
+    res.status(201).json({
+      success: true,
+      data: {
+        id: newItem._id,
+        imageUrl: newItem.imageUrl,
+        uploadedAt: newItem.createdAt
+      }
+    });
+
+  } catch (error) {
+    // Handle duplicate key error at database level
+    if (error.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        message: 'This image already exists in the gallery'
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
 };
 
 // Get all gallery items

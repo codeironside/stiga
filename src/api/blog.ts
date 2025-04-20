@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3001/api/blog";
+const API_URL = "http://localhost:5000/api/blog";
 
 export const getAllBlogPosts = async (page: number = 1, limit: number = 5) => {
   try {
@@ -15,11 +15,8 @@ export const getAllBlogPosts = async (page: number = 1, limit: number = 5) => {
 
 export const createBlogPost = async (formData: FormData) => {
   try {
-    const response = await axios.post(API_URL, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    console.log(`blog posts ${JSON.stringify(formData)}`)
+    const response = await axios.post(API_URL, formData);
     return response.data;
   } catch (error) {
     console.error("Error creating blog post:", error);

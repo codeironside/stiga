@@ -91,25 +91,6 @@ const Pagination: React.FC<PaginationProps> = ({
   );
 };
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-const TabPanel: React.FC<TabPanelProps> = ({ children, value, index }) => {
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`admin-tabpanel-${index}`}
-      aria-labelledby={`admin-tab-${index}`}
-    >
-      {value === index && (
-      )}
-    </div>
-  );
-};
 
 const AdminDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState("blog");

@@ -1,25 +1,64 @@
 const BlogPost = require('../models/BlogPost');
 
+
+const { isValidObjectId } = require('mongoose');
+
 const createBlogPost = async (req, res) => {
   try {
     const { title, content, author, imageUrl } = req.body;
+ 
+    // Validate input
+    if (!title || !content || !author || !imageUrl) {
+      return res.status(400).json({
+        success: false,
+        message: `All fields are required ${JSON.stringify(req.body)}`
+      });
+    }
 
-    const newBlogPost = new BlogPost({
-      title,
-      content,
-      author,
-      imageUrl: imageUrl || "",
+    // Check for existing title (case-insensitive)
+    const existingPost = await BlogPost.findOne({
+      title: { $regex: new RegExp(`^${title}$`, 'i') }
     });
 
-    try {
-      const savedBlogPost = await newBlogPost.save();
-      res.status(201).json(savedBlogPost);
-    } catch (saveError) {
-      console.error("Error saving blog post:", saveError);
-      res.status(500).json({ message: saveError.message });
+    if (existingPost) {
+      return res.status(409).json({
+        success: false,
+        message: 'Blog post with this title already exists'
+      });
     }
+
+    // Create new post with atomic check
+    const newPost = await BlogPost.create({
+      title: title.trim(),
+      content: content.trim(),
+      author: author.trim(),
+      imageUrl: imageUrl.trim()
+    });
+
+    res.status(201).json({
+      success: true,
+      data: {
+        id: newPost._id,
+        title: newPost.title,
+        author: newPost.author,
+        createdAt: newPost.createdAt
+      }
+    });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    // Handle duplicate key error at database level
+    if (error.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        message: 'Blog post with this title already exists'
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
 
