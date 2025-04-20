@@ -1,6 +1,4 @@
-Here's the complete markdown version with enhanced formatting:
 
-```markdown
 # 🚀 Striga - Modern Business Solutions Platform
 
 <div align="center">
