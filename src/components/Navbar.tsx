@@ -70,7 +70,7 @@ const Navbar = () => {
               transition={{ duration: 0.5 }}
               className="flex items-center"
             >
-              <img src="/stiga-favicon.svg" className="h-10 w-10" alt="Striga Logo" />
+              <img src="/public/Rectangle 1.png" className="h-10 w-10" alt="Striga Logo" />
             </motion.div>
             <motion.span
               initial={{ opacity: 0, x: -20 }}
